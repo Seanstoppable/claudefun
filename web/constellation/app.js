@@ -73,21 +73,14 @@
         generate(initialText);
     }
 
-    // Debounced input
-    let debounceTimer = null;
-    inputEl.addEventListener('input', function () {
-        clearTimeout(debounceTimer);
-        debounceTimer = setTimeout(function () {
+    // Submit on Enter only
+    inputEl.addEventListener('keydown', function (e) {
+        if (e.key === 'Enter') {
             const text = inputEl.value.trim();
             if (text) {
                 generate(text);
-            } else {
-                resultEl.style.display = 'none';
-                emptyStateEl.style.display = 'block';
-                currentSVG = '';
-                currentName = '';
             }
-        }, 300);
+        }
     });
 
     inputEl.focus();

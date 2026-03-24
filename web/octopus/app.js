@@ -270,16 +270,9 @@
       .join('');
   }
 
-  // ── Handle input ──
-  let debounceTimer;
-  input.addEventListener('input', () => {
-    clearTimeout(debounceTimer);
-    debounceTimer = setTimeout(processInput, 300);
-  });
-
+  // ── Handle input — submit on Enter only ──
   input.addEventListener('keydown', (e) => {
     if (e.key === 'Enter') {
-      clearTimeout(debounceTimer);
       processInput();
     }
   });
