@@ -1,0 +1,13 @@
+# Compiled binaries
+*.wasm
+constellation/constellation-composer
+pizza/infinite-pizza
+gitshanty/git-shanty
+kingdom/tiny-kingdom
+
+# Test artifacts
+constellation/out.svg
+constellation/test.svg
+
+# OS files
+.DS_Store
