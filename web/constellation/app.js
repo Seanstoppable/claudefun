@@ -74,11 +74,15 @@
     }
 
     // Submit on Enter only
+    const lastMsgEl = document.getElementById('lastMessage');
     inputEl.addEventListener('keydown', function (e) {
         if (e.key === 'Enter') {
             const text = inputEl.value.trim();
             if (text) {
                 generate(text);
+                lastMsgEl.textContent = '✨ "' + text + '"';
+                lastMsgEl.style.display = 'block';
+                inputEl.value = '';
             }
         }
     });

@@ -271,9 +271,16 @@
   }
 
   // ── Handle input — submit on Enter only ──
+  const lastMsgEl = document.getElementById('lastMessage');
   input.addEventListener('keydown', (e) => {
     if (e.key === 'Enter') {
-      processInput();
+      const text = input.value.trim();
+      if (text) {
+        processInput();
+        lastMsgEl.textContent = '🐙 "' + text + '"';
+        lastMsgEl.style.display = 'block';
+        input.value = '';
+      }
     }
   });
 
