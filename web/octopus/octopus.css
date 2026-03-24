@@ -1,0 +1,522 @@
+/* Mood Octopus — Styles */
+
+/* ── Emotion color variables ── */
+:root {
+  --emotion-joy: #FFD700;
+  --emotion-sadness: #4682B4;
+  --emotion-anger: #FF4500;
+  --emotion-fear: #9B59B6;
+  --emotion-curiosity: #1ABC9C;
+  --emotion-sleepy: #7B68EE;
+  --emotion-silly: #FF69B4;
+  --emotion-love: #FF1493;
+  --current-emotion: var(--accent-teal);
+  --bg-tint: transparent;
+}
+
+/* ── Page layout ── */
+.octopus-app {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-height: 100vh;
+  position: relative;
+  overflow: hidden;
+}
+
+.octopus-app::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background: var(--bg-tint);
+  opacity: 0.08;
+  transition: background 1s ease, opacity 1s ease;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.octopus-app > * {
+  position: relative;
+  z-index: 1;
+}
+
+/* ── Welcome banner ── */
+.welcome-banner {
+  text-align: center;
+  padding: 1rem 1.5rem;
+  margin: 1rem;
+  background: var(--bg-card);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius);
+  max-width: 500px;
+  animation: fadeSlideIn 0.6s ease;
+}
+
+.welcome-banner h2 {
+  color: var(--accent-gold);
+  margin-bottom: 0.3rem;
+  font-size: 1.2rem;
+}
+
+.welcome-banner p {
+  color: var(--text-secondary);
+  font-size: 0.95rem;
+}
+
+.welcome-banner .close-btn {
+  background: none;
+  border: none;
+  color: var(--text-dim);
+  cursor: pointer;
+  font-size: 1.2rem;
+  float: right;
+  margin: -0.5rem -0.5rem 0 0;
+}
+
+/* ── Advice bubble ── */
+.advice-bubble {
+  max-width: 400px;
+  text-align: center;
+  padding: 0.8rem 1.2rem;
+  background: var(--bg-card);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius);
+  color: var(--text-secondary);
+  font-style: italic;
+  position: relative;
+  margin-bottom: 0.5rem;
+  opacity: 0;
+  transform: translateY(10px);
+  transition: opacity 0.4s ease, transform 0.4s ease;
+}
+
+.advice-bubble.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.advice-bubble::after {
+  content: '';
+  position: absolute;
+  bottom: -8px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 0;
+  height: 0;
+  border-left: 8px solid transparent;
+  border-right: 8px solid transparent;
+  border-top: 8px solid var(--bg-card);
+}
+
+/* ── SVG Octopus ── */
+.octopus-stage {
+  width: 320px;
+  height: 360px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0.5rem 0;
+}
+
+.octopus-svg {
+  width: 100%;
+  height: 100%;
+  filter: drop-shadow(0 4px 20px rgba(0, 0, 0, 0.3));
+}
+
+/* Head/mantle */
+.octo-mantle {
+  fill: var(--current-emotion);
+  transition: fill 0.6s ease;
+  filter: url(#glow);
+}
+
+.octo-mantle-highlight {
+  fill: rgba(255, 255, 255, 0.15);
+}
+
+/* Eyes */
+.octo-eye {
+  transition: all 0.3s ease;
+}
+
+.octo-pupil {
+  fill: #1a1a2e;
+  transition: all 0.3s ease;
+}
+
+.octo-eye-white {
+  fill: #fff;
+  transition: all 0.3s ease;
+}
+
+.octo-mouth {
+  stroke: #1a1a2e;
+  stroke-width: 2;
+  stroke-linecap: round;
+  fill: none;
+  transition: d 0.4s ease;
+}
+
+/* Arms */
+.octo-arm {
+  fill: none;
+  stroke: var(--current-emotion);
+  stroke-width: 8;
+  stroke-linecap: round;
+  transition: stroke 0.6s ease, d 1s ease, opacity 0.6s ease;
+}
+
+/* Zzz particles for sleepy */
+.zzz-text {
+  fill: var(--emotion-sleepy);
+  font-size: 16px;
+  font-weight: bold;
+  opacity: 0;
+  transition: opacity 0.5s ease;
+}
+
+.sleepy .zzz-text { opacity: 1; }
+
+/* ── Idle animation ── */
+@keyframes bob {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-6px); }
+}
+
+@keyframes breathe {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.02); }
+}
+
+.octopus-svg {
+  animation: bob 4s ease-in-out infinite;
+}
+
+.octo-body-group {
+  transform-origin: 160px 140px;
+  animation: breathe 4s ease-in-out infinite;
+}
+
+/* ── Joy ── */
+@keyframes joyWiggle {
+  0%, 100% { transform: rotate(0deg); }
+  25% { transform: rotate(2deg); }
+  75% { transform: rotate(-2deg); }
+}
+
+.joy .octo-body-group {
+  animation: joyWiggle 0.6s ease-in-out infinite, breathe 4s ease-in-out infinite;
+}
+
+@keyframes joyArmsWave {
+  0%, 100% { transform: rotate(0deg); }
+  50% { transform: rotate(8deg); }
+}
+
+.joy .octo-arms {
+  animation: joyArmsWave 0.8s ease-in-out infinite alternate;
+  transform-origin: 160px 190px;
+}
+
+/* ── Sadness ── */
+@keyframes sadSink {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(4px); }
+}
+
+.sadness .octopus-svg {
+  animation: sadSink 5s ease-in-out infinite;
+}
+
+.sadness .octo-body-group {
+  animation: breathe 6s ease-in-out infinite;
+}
+
+/* ── Anger ── */
+@keyframes angerShake {
+  0%, 100% { transform: translateX(0); }
+  10% { transform: translateX(-3px); }
+  20% { transform: translateX(3px); }
+  30% { transform: translateX(-3px); }
+  40% { transform: translateX(3px); }
+  50% { transform: translateX(0); }
+}
+
+.anger .octo-body-group {
+  animation: angerShake 0.8s ease-in-out infinite;
+}
+
+.anger .octopus-svg {
+  animation: bob 2s ease-in-out infinite;
+}
+
+/* ── Fear ── */
+@keyframes fearShrink {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(0.95); }
+}
+
+@keyframes fearTremble {
+  0%, 100% { transform: translateX(0); }
+  25% { transform: translateX(-1px); }
+  75% { transform: translateX(1px); }
+}
+
+.fear .octo-body-group {
+  animation: fearShrink 2s ease-in-out infinite, fearTremble 0.3s ease-in-out infinite;
+}
+
+.fear .octopus-svg {
+  animation: bob 5s ease-in-out infinite;
+}
+
+/* ── Curiosity ── */
+@keyframes curiosityTilt {
+  0%, 100% { transform: rotate(0deg); }
+  50% { transform: rotate(5deg); }
+}
+
+.curiosity .octo-body-group {
+  animation: curiosityTilt 3s ease-in-out infinite, breathe 4s ease-in-out infinite;
+}
+
+/* ── Sleepy ── */
+@keyframes sleepyDroop {
+  0%, 100% { transform: translateY(0) rotate(0deg); }
+  50% { transform: translateY(3px) rotate(-2deg); }
+}
+
+@keyframes zzzFloat {
+  0% { opacity: 0; transform: translate(0, 0) scale(0.8); }
+  30% { opacity: 1; }
+  100% { opacity: 0; transform: translate(15px, -30px) scale(1.2); }
+}
+
+.sleepy .octo-body-group {
+  animation: sleepyDroop 5s ease-in-out infinite;
+}
+
+.sleepy .octopus-svg {
+  animation: bob 6s ease-in-out infinite;
+}
+
+.sleepy .zzz1 { animation: zzzFloat 3s ease-in-out infinite; }
+.sleepy .zzz2 { animation: zzzFloat 3s ease-in-out infinite 1s; }
+.sleepy .zzz3 { animation: zzzFloat 3s ease-in-out infinite 2s; }
+
+/* ── Silly ── */
+@keyframes sillyBounce {
+  0%, 100% { transform: translateY(0) rotate(0deg); }
+  25% { transform: translateY(-8px) rotate(3deg); }
+  50% { transform: translateY(0) rotate(-3deg); }
+  75% { transform: translateY(-4px) rotate(2deg); }
+}
+
+@keyframes sillyArms {
+  0%, 100% { transform: rotate(0deg); }
+  25% { transform: rotate(5deg); }
+  50% { transform: rotate(-5deg); }
+  75% { transform: rotate(3deg); }
+}
+
+.silly .octo-body-group {
+  animation: sillyBounce 1.2s ease-in-out infinite;
+}
+
+.silly .octo-arms {
+  animation: sillyArms 0.6s ease-in-out infinite;
+  transform-origin: 160px 190px;
+}
+
+/* ── Love ── */
+@keyframes lovePulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.05); }
+}
+
+.love .octo-body-group {
+  animation: lovePulse 1.5s ease-in-out infinite;
+}
+
+.love .octopus-svg {
+  animation: bob 3s ease-in-out infinite;
+}
+
+/* ── Mood display ── */
+.mood-display {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 0.8rem 1.5rem;
+  background: var(--bg-card);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius);
+  min-width: 280px;
+  justify-content: center;
+  margin-bottom: 1rem;
+}
+
+.mood-emoji {
+  font-size: 2rem;
+  line-height: 1;
+}
+
+.mood-info {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.mood-name {
+  font-weight: 600;
+  font-size: 1.1rem;
+  color: var(--text-primary);
+}
+
+.confidence-bar {
+  width: 120px;
+  height: 6px;
+  background: var(--bg-secondary);
+  border-radius: 3px;
+  overflow: hidden;
+}
+
+.confidence-fill {
+  height: 100%;
+  background: var(--current-emotion);
+  border-radius: 3px;
+  transition: width 0.6s ease, background 0.6s ease;
+}
+
+/* ── All moods breakdown ── */
+.mood-breakdown {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin-bottom: 1rem;
+  max-width: 500px;
+}
+
+.mood-chip {
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+  padding: 0.25rem 0.6rem;
+  background: var(--bg-secondary);
+  border-radius: 20px;
+  font-size: 0.8rem;
+  color: var(--text-secondary);
+  border: 1px solid var(--border-subtle);
+}
+
+.mood-chip .chip-bar {
+  width: 30px;
+  height: 3px;
+  background: var(--bg-primary);
+  border-radius: 2px;
+  overflow: hidden;
+}
+
+.mood-chip .chip-fill {
+  height: 100%;
+  border-radius: 2px;
+}
+
+/* ── Mood history trail ── */
+.mood-history {
+  display: flex;
+  gap: 0.25rem;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin-bottom: 1rem;
+  max-width: 500px;
+}
+
+.mood-history-label {
+  color: var(--text-dim);
+  font-size: 0.8rem;
+  margin-right: 0.5rem;
+}
+
+.history-emoji {
+  font-size: 1rem;
+  opacity: 0.6;
+  transition: opacity 0.3s;
+}
+
+.history-emoji:last-child {
+  opacity: 1;
+  font-size: 1.1rem;
+}
+
+/* ── Input area ── */
+.input-area {
+  width: 100%;
+  max-width: 500px;
+  padding: 0 1.5rem 2rem;
+}
+
+.input-area .text-input {
+  text-align: center;
+  font-size: 1.1rem;
+  padding: 1rem;
+  border-radius: 50px;
+  border: 2px solid var(--border-subtle);
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.input-area .text-input:focus {
+  border-color: var(--current-emotion);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--current-emotion) 20%, transparent);
+}
+
+/* ── Transitions ── */
+@keyframes fadeSlideIn {
+  from { opacity: 0; transform: translateY(-10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes popIn {
+  0% { transform: scale(0); opacity: 0; }
+  70% { transform: scale(1.1); }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+.mood-display { animation: fadeSlideIn 0.4s ease; }
+
+/* ── Nav ── */
+.top-nav {
+  width: 100%;
+  padding: 0.75rem 1.5rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.top-nav a {
+  color: var(--text-secondary);
+  font-size: 0.9rem;
+}
+
+.top-nav a:hover {
+  color: var(--text-primary);
+}
+
+/* ── Responsive ── */
+@media (max-width: 480px) {
+  .octopus-stage {
+    width: 260px;
+    height: 300px;
+  }
+
+  .mood-display {
+    min-width: auto;
+    padding: 0.6rem 1rem;
+  }
+
+  .input-area {
+    padding: 0 1rem 1.5rem;
+  }
+}

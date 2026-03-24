@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' 'wasm-unsafe-eval'; style-src 'self' 'unsafe-inline'; img-src 'self' data:;">
+  <title>🐙 Mood Octopus</title>
+  <link rel="stylesheet" href="../style.css">
+  <link rel="stylesheet" href="octopus.css">
+</head>
+<body>
+  <div class="octopus-app" id="app">
+    <!-- Nav -->
+    <nav class="top-nav">
+      <a href="../">← Back to Claudefun</a>
+      <span style="color: var(--text-dim); font-size: 0.85rem;">🐙 Mood Octopus</span>
+    </nav>
+
+    <!-- Welcome banner (first visit) -->
+    <div class="welcome-banner" id="welcome" style="display:none;">
+      <button class="close-btn" onclick="dismissWelcome()">✕</button>
+      <h2>🐙 Hello, I'm your Mood Octopus!</h2>
+      <p>Type anything below and watch me react to your feelings. I have eight arms and three hearts — all for you!</p>
+    </div>
+
+    <!-- Advice bubble -->
+    <div class="advice-bubble" id="advice-bubble"></div>
+
+    <!-- SVG Octopus -->
+    <div class="octopus-stage" id="octopus-stage">
+      <svg class="octopus-svg" id="octopus-svg" viewBox="0 0 320 360" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <filter id="glow">
+            <feGaussianBlur stdDeviation="3" result="blur"/>
+            <feMerge>
+              <feMergeNode in="blur"/>
+              <feMergeNode in="SourceGraphic"/>
+            </feMerge>
+          </filter>
+          <radialGradient id="mantle-grad" cx="45%" cy="35%" r="55%">
+            <stop offset="0%" stop-color="rgba(255,255,255,0.2)"/>
+            <stop offset="100%" stop-color="rgba(0,0,0,0)"/>
+          </radialGradient>
+        </defs>
+
+        <g class="octo-body-group">
+          <!-- Arms (behind body) -->
+          <g class="octo-arms" id="octo-arms">
+            <!-- 8 arms: 4 left, 4 right -->
+            <path class="octo-arm" id="arm-l1" d="M120,200 Q80,230 60,270 Q50,290 65,300"/>
+            <path class="octo-arm" id="arm-l2" d="M130,205 Q95,240 80,280 Q75,300 85,310"/>
+            <path class="octo-arm" id="arm-l3" d="M140,210 Q115,250 105,290 Q100,310 110,315"/>
+            <path class="octo-arm" id="arm-l4" d="M148,215 Q135,255 135,295 Q135,315 140,320"/>
+            <path class="octo-arm" id="arm-r1" d="M200,200 Q240,230 260,270 Q270,290 255,300"/>
+            <path class="octo-arm" id="arm-r2" d="M190,205 Q225,240 240,280 Q245,300 235,310"/>
+            <path class="octo-arm" id="arm-r3" d="M180,210 Q205,250 215,290 Q220,310 210,315"/>
+            <path class="octo-arm" id="arm-r4" d="M172,215 Q185,255 185,295 Q185,315 180,320"/>
+          </g>
+
+          <!-- Mantle (head) -->
+          <ellipse class="octo-mantle" cx="160" cy="140" rx="70" ry="80"/>
+          <ellipse cx="160" cy="140" rx="70" ry="80" fill="url(#mantle-grad)"/>
+
+          <!-- Eyes -->
+          <g class="octo-eyes" id="octo-eyes">
+            <!-- Left eye -->
+            <circle class="octo-eye-white" cx="135" cy="140" r="16"/>
+            <circle class="octo-pupil" id="pupil-l" cx="137" cy="140" r="9"/>
+            <circle cx="132" cy="135" r="3" fill="rgba(255,255,255,0.6)"/>
+            <!-- Right eye -->
+            <circle class="octo-eye-white" cx="185" cy="140" r="16"/>
+            <circle class="octo-pupil" id="pupil-r" cx="187" cy="140" r="9"/>
+            <circle cx="182" cy="135" r="3" fill="rgba(255,255,255,0.6)"/>
+          </g>
+
+          <!-- Mouth -->
+          <path class="octo-mouth" id="octo-mouth" d="M148,165 Q160,175 172,165"/>
+
+          <!-- Sleepy zzz -->
+          <text class="zzz-text zzz1" x="230" y="100">z</text>
+          <text class="zzz-text zzz2" x="245" y="80">z</text>
+          <text class="zzz-text zzz3" x="255" y="60">Z</text>
+        </g>
+      </svg>
+    </div>
+
+    <!-- Mood display -->
+    <div class="mood-display" id="mood-display" style="display:none;">
+      <span class="mood-emoji" id="mood-emoji">🤔</span>
+      <div class="mood-info">
+        <span class="mood-name" id="mood-name">Curiosity</span>
+        <div class="confidence-bar">
+          <div class="confidence-fill" id="confidence-fill" style="width: 100%;"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Mood breakdown chips -->
+    <div class="mood-breakdown" id="mood-breakdown"></div>
+
+    <!-- Mood history -->
+    <div class="mood-history" id="mood-history"></div>
+
+    <!-- Input -->
+    <div class="input-area">
+      <input type="text" class="text-input" id="mood-input"
+             placeholder="Type something to feed the octopus..."
+             autocomplete="off" autofocus>
+    </div>
+  </div>
+
+  <div class="loading" id="loading">Loading Mood Octopus<br><small>Warming up three hearts...</small></div>
+
+  <script src="../shared/wasm_exec.js"></script>
+  <script src="../shared/common.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

@@ -1,0 +1,497 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' 'wasm-unsafe-eval'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data:;">
+<title>Tiny Kingdom Simulator</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=MedievalSharp&family=Crimson+Text:ital@0;1&display=swap');
+
+  :root {
+    --bg-dark: #1a1a2e;
+    --bg-panel: #16213e;
+    --bg-parchment: #2a1f14;
+    --border-gold: #c9a84c;
+    --accent-gold: #f0c040;
+    --text-light: #e8d8c0;
+    --text-dim: #8b7d6b;
+    --stat-green: #4caf50;
+    --stat-yellow: #ff9800;
+    --stat-red: #f44336;
+    --victory-gold: #ffd700;
+    --defeat-red: #8b0000;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Crimson Text', Georgia, serif;
+    background: var(--bg-dark);
+    color: var(--text-light);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  /* ── Header ── */
+  #header {
+    width: 100%;
+    max-width: 800px;
+    text-align: center;
+    padding: 1.5rem 1rem 1rem;
+  }
+  #header h1 {
+    font-family: 'MedievalSharp', cursive;
+    font-size: 2.2rem;
+    color: var(--accent-gold);
+    text-shadow: 0 0 20px rgba(240,192,64,0.3);
+  }
+  #header .subtitle {
+    font-style: italic;
+    color: var(--text-dim);
+    font-size: 1.1rem;
+    margin-top: 0.3rem;
+  }
+
+  /* ── Main container ── */
+  #game {
+    width: 100%;
+    max-width: 800px;
+    padding: 0 1rem 2rem;
+    display: none;
+  }
+
+  /* ── Stats dashboard ── */
+  .stats-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.5rem;
+    margin-bottom: 1rem;
+  }
+  .stat-bar {
+    background: rgba(0,0,0,0.3);
+    border: 1px solid rgba(201,168,76,0.2);
+    border-radius: 6px;
+    padding: 0.4rem 0.6rem;
+    position: relative;
+    overflow: hidden;
+  }
+  .stat-bar .stat-fill {
+    position: absolute;
+    top: 0; left: 0; bottom: 0;
+    border-radius: 6px;
+    opacity: 0.2;
+    transition: width 0.8s ease, background 0.8s ease;
+  }
+  .stat-bar .stat-content {
+    position: relative;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    z-index: 1;
+  }
+  .stat-label { font-size: 0.95rem; }
+  .stat-value {
+    font-weight: bold;
+    font-size: 1rem;
+    min-width: 3ch;
+    text-align: right;
+  }
+
+  /* ── Factions ── */
+  .factions-panel {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.6rem;
+    margin-bottom: 1.2rem;
+    padding: 0.8rem;
+    background: rgba(0,0,0,0.2);
+    border-radius: 8px;
+    border: 1px solid rgba(201,168,76,0.15);
+  }
+  .faction-chip {
+    display: flex;
+    align-items: center;
+    gap: 0.3rem;
+    padding: 0.3rem 0.7rem;
+    border-radius: 20px;
+    font-size: 0.9rem;
+    background: rgba(201,168,76,0.08);
+    border: 1px solid rgba(201,168,76,0.2);
+    transition: border-color 0.5s, background 0.5s;
+  }
+  .faction-chip.positive { border-color: rgba(76,175,80,0.5); background: rgba(76,175,80,0.1); }
+  .faction-chip.negative { border-color: rgba(244,67,54,0.5); background: rgba(244,67,54,0.1); }
+  .faction-mood {
+    font-weight: bold;
+    font-size: 0.85rem;
+  }
+
+  /* ── Bard narration ── */
+  .bard-panel {
+    background: var(--bg-parchment);
+    border: 2px solid var(--border-gold);
+    border-radius: 10px;
+    padding: 1.2rem 1.5rem;
+    margin-bottom: 1.2rem;
+    position: relative;
+    box-shadow: inset 0 0 30px rgba(0,0,0,0.4), 0 4px 20px rgba(0,0,0,0.3);
+  }
+  .bard-panel::before {
+    content: '🎵';
+    position: absolute;
+    top: -12px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: var(--bg-parchment);
+    padding: 0 0.5rem;
+    font-size: 1.2rem;
+  }
+  .bard-panel .bard-title {
+    font-family: 'MedievalSharp', cursive;
+    color: var(--accent-gold);
+    font-size: 1rem;
+    margin-bottom: 0.5rem;
+    text-align: center;
+  }
+  .bard-panel .bard-text {
+    font-style: italic;
+    line-height: 1.7;
+    white-space: pre-line;
+    color: var(--text-light);
+    font-size: 1.05rem;
+  }
+
+  /* ── Policy card ── */
+  .policy-section {
+    margin-bottom: 1rem;
+  }
+  .policy-question {
+    font-family: 'MedievalSharp', cursive;
+    font-size: 1.3rem;
+    text-align: center;
+    color: var(--accent-gold);
+    margin-bottom: 1rem;
+    padding: 0.8rem;
+    border-bottom: 1px solid rgba(201,168,76,0.3);
+  }
+  .policy-options {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+  }
+  .policy-btn {
+    font-family: 'Crimson Text', Georgia, serif;
+    font-size: 1.1rem;
+    padding: 1.2rem 1rem;
+    border: 2px solid var(--border-gold);
+    border-radius: 10px;
+    background: linear-gradient(135deg, rgba(42,31,20,0.9), rgba(22,33,62,0.9));
+    color: var(--text-light);
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-align: center;
+    line-height: 1.4;
+  }
+  .policy-btn:hover {
+    border-color: var(--accent-gold);
+    background: linear-gradient(135deg, rgba(62,51,30,0.95), rgba(32,43,72,0.95));
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(240,192,64,0.2);
+  }
+  .policy-btn:active { transform: translateY(0); }
+
+  /* ── Event overlay ── */
+  .event-overlay {
+    display: none;
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: rgba(0,0,0,0.7);
+    z-index: 100;
+    justify-content: center;
+    align-items: center;
+    animation: fadeIn 0.3s ease;
+  }
+  .event-overlay.show { display: flex; }
+  .event-card {
+    background: var(--bg-parchment);
+    border: 3px solid var(--border-gold);
+    border-radius: 12px;
+    padding: 2rem;
+    max-width: 500px;
+    width: 90%;
+    text-align: center;
+    animation: slideUp 0.5s ease;
+    box-shadow: 0 0 40px rgba(240,192,64,0.3);
+  }
+  .event-card h2 {
+    font-family: 'MedievalSharp', cursive;
+    color: var(--accent-gold);
+    font-size: 1.6rem;
+    margin-bottom: 0.5rem;
+  }
+  .event-card .event-desc {
+    font-size: 1.1rem;
+    margin-bottom: 1rem;
+    color: var(--text-light);
+  }
+  .event-card .event-narration {
+    font-style: italic;
+    white-space: pre-line;
+    line-height: 1.6;
+    color: var(--text-dim);
+    margin-bottom: 1.2rem;
+  }
+  .event-card button {
+    font-family: 'MedievalSharp', cursive;
+    font-size: 1.1rem;
+    padding: 0.6rem 2rem;
+    border: 2px solid var(--border-gold);
+    border-radius: 8px;
+    background: rgba(201,168,76,0.15);
+    color: var(--accent-gold);
+    cursor: pointer;
+    transition: background 0.3s;
+  }
+  .event-card button:hover { background: rgba(201,168,76,0.3); }
+
+  /* ── Welcome screen ── */
+  #welcome {
+    display: none;
+    width: 100%;
+    max-width: 800px;
+    padding: 2rem 1rem;
+    text-align: center;
+  }
+  #welcome .bard-panel { text-align: left; }
+  #begin-btn {
+    font-family: 'MedievalSharp', cursive;
+    font-size: 1.4rem;
+    padding: 0.8rem 3rem;
+    margin-top: 1.5rem;
+    border: 2px solid var(--accent-gold);
+    border-radius: 10px;
+    background: linear-gradient(135deg, rgba(201,168,76,0.2), rgba(201,168,76,0.05));
+    color: var(--accent-gold);
+    cursor: pointer;
+    transition: all 0.3s;
+    animation: pulse 2s infinite;
+  }
+  #begin-btn:hover {
+    background: linear-gradient(135deg, rgba(201,168,76,0.35), rgba(201,168,76,0.15));
+    box-shadow: 0 0 25px rgba(240,192,64,0.3);
+  }
+
+  /* ── Game Over screen ── */
+  #gameover {
+    display: none;
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: rgba(0,0,0,0.85);
+    z-index: 200;
+    justify-content: center;
+    align-items: center;
+  }
+  #gameover.show { display: flex; }
+  .gameover-card {
+    max-width: 550px;
+    width: 90%;
+    padding: 2.5rem;
+    border-radius: 14px;
+    text-align: center;
+    animation: slideUp 0.8s ease;
+  }
+  .gameover-card.victory {
+    background: linear-gradient(135deg, #2a1f14, #1a2e1a);
+    border: 3px solid var(--victory-gold);
+    box-shadow: 0 0 60px rgba(255,215,0,0.3);
+  }
+  .gameover-card.defeat {
+    background: linear-gradient(135deg, #2a1414, #1a1a2e);
+    border: 3px solid var(--defeat-red);
+    box-shadow: 0 0 60px rgba(139,0,0,0.3);
+  }
+  .gameover-card h2 {
+    font-family: 'MedievalSharp', cursive;
+    font-size: 2rem;
+    margin-bottom: 0.5rem;
+  }
+  .gameover-card.victory h2 { color: var(--victory-gold); }
+  .gameover-card.defeat h2 { color: #ff4444; }
+  .gameover-card .go-message {
+    font-size: 1.15rem;
+    margin-bottom: 1rem;
+    color: var(--text-light);
+  }
+  .gameover-card .go-narration {
+    font-style: italic;
+    white-space: pre-line;
+    line-height: 1.6;
+    color: var(--text-dim);
+    margin-bottom: 0.8rem;
+    padding: 1rem;
+    border-top: 1px solid rgba(201,168,76,0.2);
+    border-bottom: 1px solid rgba(201,168,76,0.2);
+  }
+  .gameover-card .go-stats {
+    font-size: 0.95rem;
+    color: var(--text-dim);
+    margin-bottom: 1.2rem;
+  }
+  #restart-btn {
+    font-family: 'MedievalSharp', cursive;
+    font-size: 1.3rem;
+    padding: 0.7rem 2.5rem;
+    border: 2px solid var(--accent-gold);
+    border-radius: 10px;
+    background: rgba(201,168,76,0.15);
+    color: var(--accent-gold);
+    cursor: pointer;
+    transition: all 0.3s;
+  }
+  #restart-btn:hover {
+    background: rgba(201,168,76,0.3);
+    box-shadow: 0 0 20px rgba(240,192,64,0.2);
+  }
+
+  /* ── Loading ── */
+  #loading {
+    text-align: center;
+    padding: 4rem 1rem;
+    font-family: 'MedievalSharp', cursive;
+    font-size: 1.4rem;
+    color: var(--accent-gold);
+  }
+  .loading-spinner {
+    display: inline-block;
+    width: 40px;
+    height: 40px;
+    border: 3px solid rgba(201,168,76,0.2);
+    border-top-color: var(--accent-gold);
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+    margin-bottom: 1rem;
+  }
+
+  /* ── Turn indicator ── */
+  .turn-narration {
+    text-align: center;
+    font-style: italic;
+    color: var(--text-dim);
+    margin-bottom: 0.8rem;
+    font-size: 0.95rem;
+    white-space: pre-line;
+    line-height: 1.5;
+  }
+
+  /* ── Stability warning ── */
+  .instability-warning {
+    text-align: center;
+    color: var(--stat-red);
+    font-weight: bold;
+    padding: 0.5rem;
+    margin-bottom: 0.8rem;
+    border: 1px solid rgba(244,67,54,0.3);
+    border-radius: 6px;
+    background: rgba(244,67,54,0.1);
+    animation: pulse 1.5s infinite;
+    display: none;
+  }
+  .instability-warning.show { display: block; }
+
+  /* ── Animations ── */
+  @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+  @keyframes slideUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
+  @keyframes spin { to { transform: rotate(360deg); } }
+  @keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.7; }
+  }
+
+  /* ── Responsive ── */
+  @media (max-width: 500px) {
+    .stats-grid { grid-template-columns: 1fr; }
+    .policy-options { grid-template-columns: 1fr; }
+    #header h1 { font-size: 1.6rem; }
+  }
+</style>
+</head>
+<body>
+
+<div id="header">
+  <h1>👑 Tiny Kingdom Simulator</h1>
+  <div class="subtitle" id="ruler-info"></div>
+</div>
+
+<div id="loading">
+  <div class="loading-spinner"></div>
+  <div>Summoning the kingdom...</div>
+</div>
+
+<div id="welcome">
+  <div class="bard-panel">
+    <div class="bard-title">The Bard Speaks</div>
+    <div class="bard-text" id="welcome-text"></div>
+  </div>
+  <button id="begin-btn">⚔️ Begin Your Reign ⚔️</button>
+</div>
+
+<div id="game">
+  <!-- Stats -->
+  <div class="stats-grid" id="stats-grid"></div>
+
+  <!-- Factions -->
+  <div class="factions-panel" id="factions-panel"></div>
+
+  <!-- Instability warning -->
+  <div class="instability-warning" id="instability-warning">
+    ⚠️ The kingdom teeters on the edge!
+  </div>
+
+  <!-- Turn narration -->
+  <div class="turn-narration" id="turn-narration"></div>
+
+  <!-- Bard narration -->
+  <div class="bard-panel" id="bard-narration-panel" style="display:none">
+    <div class="bard-title">The Bard Narrates</div>
+    <div class="bard-text" id="bard-text"></div>
+  </div>
+
+  <!-- Policy -->
+  <div class="policy-section" id="policy-section">
+    <div class="policy-question" id="policy-question"></div>
+    <div class="policy-options">
+      <button class="policy-btn" id="btn-a"></button>
+      <button class="policy-btn" id="btn-b"></button>
+    </div>
+  </div>
+</div>
+
+<!-- Event overlay -->
+<div class="event-overlay" id="event-overlay">
+  <div class="event-card">
+    <h2 id="event-name"></h2>
+    <div class="event-desc" id="event-desc"></div>
+    <div class="event-narration" id="event-narration"></div>
+    <button id="event-dismiss">Continue</button>
+  </div>
+</div>
+
+<!-- Game over -->
+<div id="gameover">
+  <div class="gameover-card" id="gameover-card">
+    <h2 id="gameover-title"></h2>
+    <div class="go-message" id="gameover-message"></div>
+    <div class="go-narration" id="gameover-narration"></div>
+    <div class="go-stats" id="gameover-stats"></div>
+    <button id="restart-btn">🏰 New Kingdom 🏰</button>
+  </div>
+</div>
+
+<script src="wasm_exec.js"></script>
+<script src="app.js"></script>
+</body>
+</html>

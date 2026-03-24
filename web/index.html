@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' 'wasm-unsafe-eval'; style-src 'self' 'unsafe-inline'; img-src 'self' data:;">
+    <title>🎨 Claudefun — Whimsical Web Toys</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .hero {
+            text-align: center;
+            padding: 3rem 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .hero h1 {
+            font-size: 3rem;
+            margin-bottom: 0.5rem;
+            background: linear-gradient(135deg, #ffd700, #ff69b4, #7d56f4, #20b2aa);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            background-size: 300% 300%;
+            animation: gradient-shift 6s ease infinite;
+        }
+
+        @keyframes gradient-shift {
+            0%, 100% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+        }
+
+        .hero .subtitle {
+            color: var(--text-secondary);
+            font-size: 1.2rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .hero .tagline {
+            color: var(--text-dim);
+            font-size: 0.95rem;
+            font-style: italic;
+        }
+
+        .projects {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 0 1.5rem;
+        }
+
+        .project-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-subtle);
+            border-radius: var(--radius);
+            padding: 2rem 1.5rem;
+            text-align: center;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            text-decoration: none;
+            color: inherit;
+            display: block;
+        }
+
+        .project-card:hover {
+            transform: translateY(-6px);
+            border-color: var(--accent-purple);
+            box-shadow: 0 12px 40px rgba(125, 86, 244, 0.2);
+            text-decoration: none;
+        }
+
+        .project-card .icon {
+            font-size: 3.5rem;
+            margin-bottom: 1rem;
+            display: block;
+        }
+
+        .project-card h2 {
+            font-size: 1.3rem;
+            margin-bottom: 0.75rem;
+        }
+
+        .project-card p {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+            line-height: 1.5;
+        }
+
+        .project-card .tag {
+            display: inline-block;
+            margin-top: 1rem;
+            padding: 0.25rem 0.75rem;
+            border-radius: 99px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        .card-constellation { border-top: 3px solid #7d56f4; }
+        .card-constellation h2 { color: #b8a9f4; }
+        .card-constellation .tag { background: rgba(125, 86, 244, 0.15); color: #b8a9f4; }
+
+        .card-pizza { border-top: 3px solid #ff6f61; }
+        .card-pizza h2 { color: #ff9a8f; }
+        .card-pizza .tag { background: rgba(255, 111, 97, 0.15); color: #ff9a8f; }
+
+        .card-octopus { border-top: 3px solid #20b2aa; }
+        .card-octopus h2 { color: #5fd4cd; }
+        .card-octopus .tag { background: rgba(32, 178, 170, 0.15); color: #5fd4cd; }
+
+        .card-kingdom { border-top: 3px solid #ffd700; }
+        .card-kingdom h2 { color: #ffe44d; }
+        .card-kingdom .tag { background: rgba(255, 215, 0, 0.15); color: #ffe44d; }
+
+        .footer {
+            text-align: center;
+            padding: 3rem 1.5rem;
+            color: var(--text-dim);
+            font-size: 0.9rem;
+        }
+
+        .footer a { color: var(--accent-purple); }
+
+        .tech-note {
+            text-align: center;
+            padding: 1rem;
+            color: var(--text-dim);
+            font-size: 0.85rem;
+            margin-top: 2rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="hero">
+        <h1>claudefun</h1>
+        <p class="subtitle">A collection of whimsical web toys</p>
+        <p class="tagline">Type words into the void. Get delightful nonsense back.</p>
+    </div>
+
+    <div class="projects">
+        <a href="constellation/" class="project-card card-constellation">
+            <span class="icon">✨</span>
+            <h2>Constellation Composer</h2>
+            <p>Type a sentence, get a unique constellation with a procedurally generated mythology. Export as SVG art.</p>
+            <span class="tag">Words → Stars</span>
+        </a>
+
+        <a href="pizza/" class="project-card card-pizza">
+            <span class="icon">🍕</span>
+            <h2>Infinite Pizza Generator</h2>
+            <p>Absurd pizza recipes with sommelier-style tasting notes. "The umami of gummy bears pairs exquisitely..."</p>
+            <span class="tag">Culinary Chaos</span>
+        </a>
+
+        <a href="octopus/" class="project-card card-octopus">
+            <span class="icon">🐙</span>
+            <h2>Mood Octopus</h2>
+            <p>An animated octopus with 8 emotional arms. Feed it words and watch it react with unsolicited life advice.</p>
+            <span class="tag">Pet Your Terminal</span>
+        </a>
+
+        <a href="kingdom/" class="project-card card-kingdom">
+            <span class="icon">🏰</span>
+            <h2>Tiny Kingdom Simulator</h2>
+            <p>Rule a kingdom through absurd policy decisions. A bard narrates everything in rhyming verse.</p>
+            <span class="tag">Reign of Chaos</span>
+        </a>
+    </div>
+
+    <p class="tech-note">
+        🔧 Powered by Go → WebAssembly. All computation runs in your browser. No servers harmed.
+    </p>
+
+    <div class="footer">
+        <p>Made with 🐙 and three hearts</p>
+        <p>Also available as CLI tools — <a href="https://github.com/ssmith/claudefun">view source</a></p>
+    </div>
+</body>
+</html>

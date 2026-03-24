@@ -1,0 +1,68 @@
+name: Deploy to GitHub Pages
+
+on:
+  push:
+    branches: [master]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-go@v5
+        with:
+          go-version: '1.22'
+
+      - name: Build WASM binaries
+        run: |
+          echo "🔨 Building WASM binaries..."
+
+          echo "  ✨ Constellation..."
+          cd web/constellation/wasm
+          GOOS=js GOARCH=wasm go build -o ../constellation.wasm .
+          cd ../../..
+
+          echo "  🍕 Pizza..."
+          cd web/pizza/wasm
+          GOOS=js GOARCH=wasm go build -o ../pizza.wasm .
+          cd ../../..
+
+          echo "  🐙 Octopus..."
+          cd web/octopus/wasm
+          GOOS=js GOARCH=wasm go build -o ../octopus.wasm .
+          cd ../../..
+
+          echo "  🏰 Kingdom..."
+          cd web/kingdom/wasm
+          GOOS=js GOARCH=wasm go build -o ../kingdom.wasm .
+          cd ../../..
+
+          echo "✅ All WASM binaries built!"
+          ls -lh web/*/*.wasm
+
+      - name: Copy wasm_exec.js from Go SDK
+        run: cp "$(go env GOROOT)/lib/wasm/wasm_exec.js" web/shared/wasm_exec.js
+
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: web
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ github.pages_url }}
+    steps:
+      - uses: actions/deploy-pages@v4
