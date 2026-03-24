@@ -33,7 +33,7 @@ func NewHistory() (*History, error) {
 	}
 
 	dir := filepath.Join(home, ".mood-octopus")
-	if err := os.MkdirAll(dir, 0o755); err != nil {
+	if err := os.MkdirAll(dir, 0o700); err != nil {
 		return nil, err
 	}
 
@@ -135,5 +135,5 @@ func (h *History) save() error {
 	if err != nil {
 		return err
 	}
-	return os.WriteFile(h.path, data, 0o644)
+	return os.WriteFile(h.path, data, 0o600)
 }
