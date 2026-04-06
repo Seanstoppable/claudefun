@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' 'wasm-unsafe-eval'; style-src 'self' 'unsafe-inline'; img-src 'self' data:;">
+    <title>🗺️ Imaginary Cartographer</title>
+    <link rel="stylesheet" href="../style.css">
+    <style>
+        .svg-container {
+            background: #2a1f0e;
+            border-radius: var(--radius);
+            border: 1px solid #5a3e1b;
+            box-shadow: 0 0 40px rgba(212, 168, 67, 0.12), var(--shadow);
+            overflow: hidden;
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 300px;
+        }
+
+        .svg-container svg {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        .place-name {
+            text-align: center;
+            font-family: Georgia, 'Times New Roman', serif;
+            font-size: 2rem;
+            letter-spacing: 0.15em;
+            color: #d4a843;
+            margin-bottom: 0.5rem;
+            text-shadow: 0 0 20px rgba(212, 168, 67, 0.4);
+        }
+
+        .landmarks-panel {
+            background: var(--bg-card);
+            border: 1px solid var(--border-subtle);
+            border-radius: var(--radius);
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .landmarks-panel h3 {
+            color: #d4a843;
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            margin-bottom: 0.75rem;
+        }
+
+        .landmark-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 0.5rem;
+        }
+
+        .landmark-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.4rem 0.6rem;
+            background: rgba(212, 168, 67, 0.06);
+            border-radius: 6px;
+            font-size: 0.9rem;
+        }
+
+        .landmark-symbol {
+            font-size: 1.1rem;
+            width: 1.5rem;
+            text-align: center;
+            flex-shrink: 0;
+        }
+
+        .landmark-name {
+            color: var(--text-primary);
+        }
+
+        .landmark-type {
+            color: var(--text-dim);
+            font-size: 0.8rem;
+            margin-left: auto;
+            flex-shrink: 0;
+        }
+
+        .lore-panel {
+            background: var(--bg-card);
+            border: 1px solid var(--border-subtle);
+            border-radius: var(--radius);
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .lore-panel h3 {
+            color: #d4a843;
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            margin-bottom: 0.25rem;
+        }
+
+        .lore-panel p {
+            color: var(--text-secondary);
+            margin-bottom: 1rem;
+            line-height: 1.7;
+        }
+
+        .lore-panel p:last-child {
+            margin-bottom: 0;
+        }
+
+        .lore-motto {
+            font-style: italic;
+            color: #d4a843 !important;
+            font-size: 1.1rem;
+            text-align: center;
+            margin-bottom: 1.25rem !important;
+        }
+
+        .lore-myth {
+            border-left: 3px solid #8b6914;
+            padding: 1rem 1.25rem;
+            background: rgba(139, 105, 20, 0.08);
+            border-radius: 0 8px 8px 0;
+            font-style: italic;
+            color: var(--text-secondary);
+            margin-bottom: 1.25rem;
+        }
+
+        .legend-entry {
+            margin-bottom: 1.25rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid var(--border-subtle);
+        }
+
+        .legend-entry:last-of-type {
+            border-bottom: none;
+            margin-bottom: 0.5rem;
+            padding-bottom: 0;
+        }
+
+        .legend-title {
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 0.25rem;
+        }
+
+        .legend-category {
+            display: inline-block;
+            padding: 0.15rem 0.5rem;
+            border-radius: 4px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            background: rgba(212, 168, 67, 0.15);
+            color: #d4a843;
+            margin-bottom: 0.5rem;
+        }
+
+        .legend-story {
+            color: var(--text-secondary);
+            line-height: 1.7;
+            font-size: 0.95rem;
+        }
+
+        .lore-warning {
+            color: var(--accent-coral) !important;
+            font-style: italic;
+            border-left: 3px solid var(--accent-coral);
+            padding-left: 1rem;
+            margin-top: 1rem;
+        }
+
+        .actions {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            margin-bottom: 1.5rem;
+            flex-wrap: wrap;
+        }
+
+        .input-section {
+            margin-bottom: 1.5rem;
+        }
+
+        .input-section .text-input {
+            font-size: 1.1rem;
+            padding: 1rem 1.25rem;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 4rem 2rem;
+            color: var(--text-dim);
+        }
+
+        .empty-state .icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        .toast {
+            position: fixed;
+            bottom: 2rem;
+            left: 50%;
+            transform: translateX(-50%) translateY(100px);
+            background: var(--bg-card);
+            border: 1px solid #d4a843;
+            color: var(--text-primary);
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            opacity: 0;
+            transition: all 0.3s ease;
+            z-index: 1000;
+        }
+
+        .toast.show {
+            transform: translateX(-50%) translateY(0);
+            opacity: 1;
+        }
+
+        .page-header {
+            border-top: 3px solid #d4a843;
+        }
+
+        .page-header h1 {
+            background: linear-gradient(135deg, #d4a843, #8b6914);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <nav class="nav">
+            <a href="../">← Home</a>
+        </nav>
+
+        <header class="page-header">
+            <h1>🗺️ Imaginary Cartographer</h1>
+            <p>Name a place that doesn't exist and chart its terrain, landmarks, and folklore</p>
+        </header>
+
+        <div id="loading" class="loading">Unfurling parchment…</div>
+
+        <div id="app" style="display: none;">
+            <div class="input-section">
+                <input type="text" id="textInput" class="text-input"
+                       placeholder="Name a place and press Enter..."
+                       autocomplete="off" spellcheck="false">
+                <div id="lastMessage" style="color: var(--text-dim); font-size: 0.85rem; margin-top: 0.5rem; font-style: italic; display: none;"></div>
+            </div>
+
+            <div id="result" style="display: none;">
+                <div id="placeName" class="place-name"></div>
+
+                <div class="svg-container" id="svgContainer"></div>
+
+                <div class="actions">
+                    <button class="btn btn-primary" id="downloadBtn">⬇ Download SVG</button>
+                    <button class="btn btn-secondary" id="shareBtn">🔗 Share</button>
+                </div>
+
+                <div class="landmarks-panel" id="landmarksPanel">
+                    <h3>Points of Interest</h3>
+                    <div class="landmark-list" id="landmarkList"></div>
+                </div>
+
+                <div class="lore-panel" id="lorePanel">
+                    <p class="lore-motto" id="loreMotto"></p>
+
+                    <h3>Creation Myth</h3>
+                    <div class="lore-myth" id="loreMyth"></div>
+
+                    <h3>Legends</h3>
+                    <div id="loreLegends"></div>
+
+                    <h3>Traveler's Warning</h3>
+                    <p class="lore-warning" id="loreWarning"></p>
+                </div>
+            </div>
+
+            <div id="emptyState" class="empty-state">
+                <div class="icon">🧭</div>
+                <p>Enter a place name above to generate your fantasy map</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="toast" id="toast"></div>
+
+    <script src="../shared/wasm_exec.js"></script>
+    <script src="../shared/common.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>
