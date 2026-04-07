@@ -1,0 +1,491 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' 'wasm-unsafe-eval'; style-src 'self' 'unsafe-inline'; img-src 'self' data:;">
+    <title>🎵 Elevator Music Composer</title>
+    <link rel="stylesheet" href="../style.css">
+    <style>
+        :root {
+            --elev-purple: #7d56f4;
+            --elev-purple-light: #b8a9f4;
+            --elev-teal: #20b2aa;
+            --elev-teal-light: #5fd4cd;
+            --elev-purple-glow: rgba(125, 86, 244, 0.25);
+            --elev-teal-glow: rgba(32, 178, 170, 0.2);
+        }
+
+        .page-header h1 {
+            background: linear-gradient(135deg, var(--elev-purple), var(--elev-teal));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .input-section { margin-bottom: 1.5rem; }
+
+        .input-section .text-input {
+            font-size: 1.1rem;
+            padding: 1rem 1.25rem;
+            border-color: var(--elev-purple);
+        }
+
+        .input-section .text-input:focus {
+            border-color: var(--elev-teal);
+            box-shadow: 0 0 0 3px var(--elev-teal-glow);
+        }
+
+        .last-message {
+            color: var(--text-dim);
+            font-size: 0.85rem;
+            margin-top: 0.5rem;
+            font-style: italic;
+            display: none;
+        }
+
+        /* Album layout */
+        .album-header {
+            display: flex;
+            gap: 1.5rem;
+            margin-bottom: 1.5rem;
+            align-items: flex-start;
+        }
+
+        .cover-art {
+            flex-shrink: 0;
+            background: #0a0a2e;
+            border: 1px solid var(--border-subtle);
+            border-radius: var(--radius);
+            padding: 0.75rem;
+            font-family: var(--font-mono);
+            font-size: 0.7rem;
+            line-height: 1.2;
+            white-space: pre;
+            color: var(--elev-teal-light);
+            box-shadow: 0 0 30px var(--elev-purple-glow);
+            overflow: hidden;
+        }
+
+        .album-info {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .album-title {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 0.25rem;
+            line-height: 1.2;
+        }
+
+        .album-artist {
+            font-size: 1.2rem;
+            color: var(--elev-purple-light);
+            margin-bottom: 0.75rem;
+        }
+
+        .album-meta {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .meta-tag {
+            display: inline-block;
+            padding: 0.2rem 0.6rem;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        .meta-genre { background: var(--elev-purple-glow); color: var(--elev-purple-light); }
+        .meta-year { background: var(--elev-teal-glow); color: var(--elev-teal-light); }
+        .meta-label { background: rgba(255, 215, 0, 0.12); color: var(--accent-gold); }
+
+        .album-bio {
+            color: var(--text-secondary);
+            font-style: italic;
+            font-size: 0.9rem;
+            line-height: 1.5;
+        }
+
+        .album-stats {
+            display: flex;
+            gap: 1.5rem;
+            margin-top: 0.75rem;
+            flex-wrap: wrap;
+        }
+
+        .album-stat {
+            text-align: center;
+        }
+
+        .album-stat-value {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: var(--accent-gold);
+        }
+
+        .album-stat-label {
+            font-size: 0.7rem;
+            color: var(--text-dim);
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+        }
+
+        /* Track listing */
+        .tracklist-card { margin-bottom: 1.5rem; }
+
+        .tracklist-card h2 {
+            color: var(--elev-teal-light);
+            margin-bottom: 1rem;
+            font-size: 1.1rem;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+        }
+
+        .tracklist {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .tracklist th {
+            text-align: left;
+            color: var(--text-dim);
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            padding: 0.5rem 0.75rem;
+            border-bottom: 1px solid var(--border-subtle);
+        }
+
+        .tracklist th:first-child { width: 2rem; text-align: center; }
+        .tracklist th:nth-child(4),
+        .tracklist th:nth-child(5) { text-align: right; }
+
+        .tracklist td {
+            padding: 0.6rem 0.75rem;
+            border-bottom: 1px solid rgba(42, 42, 90, 0.4);
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+        }
+
+        .tracklist td:first-child {
+            text-align: center;
+            color: var(--text-dim);
+            font-size: 0.8rem;
+        }
+
+        .tracklist td:nth-child(4),
+        .tracklist td:nth-child(5) {
+            text-align: right;
+            font-family: var(--font-mono);
+            font-size: 0.8rem;
+        }
+
+        .tracklist tr:hover td {
+            background: rgba(125, 86, 244, 0.05);
+            color: var(--text-primary);
+        }
+
+        .track-title { color: var(--text-primary) !important; }
+        .track-featured {
+            color: var(--elev-purple-light);
+            font-size: 0.8rem;
+            display: block;
+        }
+
+        .track-key {
+            color: var(--elev-teal-light) !important;
+        }
+
+        /* Reviews */
+        .reviews-card { margin-bottom: 1.5rem; }
+
+        .reviews-card h2 {
+            color: var(--elev-teal-light);
+            margin-bottom: 1rem;
+            font-size: 1.1rem;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+        }
+
+        .review {
+            background: var(--bg-secondary);
+            border: 1px solid rgba(42, 42, 90, 0.4);
+            border-radius: 8px;
+            padding: 1rem;
+            margin-bottom: 0.75rem;
+        }
+
+        .review-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 0.5rem;
+        }
+
+        .reviewer-name {
+            color: var(--elev-purple-light);
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+
+        .review-stars {
+            color: var(--accent-gold);
+            font-size: 1rem;
+            letter-spacing: 0.05em;
+        }
+
+        .review-text {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            line-height: 1.5;
+            font-style: italic;
+        }
+
+        .review-footer {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 0.5rem;
+            font-size: 0.75rem;
+            color: var(--text-dim);
+        }
+
+        /* Sidebar info */
+        .sidebar-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .sidebar-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-subtle);
+            border-radius: var(--radius);
+            padding: 1.25rem;
+        }
+
+        .sidebar-card h3 {
+            color: var(--elev-teal-light);
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            margin-bottom: 0.75rem;
+        }
+
+        .sidebar-card ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .sidebar-card li {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            padding: 0.25rem 0;
+        }
+
+        .sidebar-card li::before {
+            content: '♪ ';
+            color: var(--elev-purple-light);
+        }
+
+        .playlist-name {
+            color: var(--accent-gold);
+            font-weight: 600;
+        }
+
+        /* Actions */
+        .actions {
+            display: flex;
+            gap: 0.75rem;
+            justify-content: center;
+            margin-bottom: 1.5rem;
+            flex-wrap: wrap;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--elev-purple), var(--elev-teal));
+        }
+
+        .btn-primary:hover {
+            box-shadow: 0 6px 20px var(--elev-purple-glow);
+        }
+
+        .mood-suggestions {
+            text-align: center;
+            margin-top: 0.5rem;
+            font-size: 0.8rem;
+            color: var(--text-dim);
+        }
+
+        .mood-suggestions span {
+            cursor: pointer;
+            color: var(--elev-purple-light);
+            transition: color 0.2s;
+            margin: 0 0.2rem;
+        }
+
+        .mood-suggestions span:hover { color: var(--elev-teal-light); }
+
+        .empty-state {
+            text-align: center;
+            padding: 4rem 2rem;
+            color: var(--text-dim);
+        }
+
+        .empty-state .icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        .toast {
+            position: fixed;
+            bottom: 2rem;
+            left: 50%;
+            transform: translateX(-50%) translateY(100px);
+            background: var(--bg-card);
+            border: 1px solid var(--elev-teal);
+            color: var(--text-primary);
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            opacity: 0;
+            transition: all 0.3s ease;
+            z-index: 1000;
+        }
+
+        .toast.show {
+            transform: translateX(-50%) translateY(0);
+            opacity: 1;
+        }
+
+        @media (max-width: 600px) {
+            .album-header { flex-direction: column; align-items: center; }
+            .cover-art { font-size: 0.55rem; }
+            .album-title { font-size: 1.3rem; text-align: center; }
+            .album-artist { text-align: center; }
+            .album-meta { justify-content: center; }
+            .album-stats { justify-content: center; }
+            .sidebar-grid { grid-template-columns: 1fr; }
+            .tracklist th:nth-child(4),
+            .tracklist td:nth-child(4) { display: none; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <nav class="nav">
+            <a href="../">← Home</a>
+        </nav>
+
+        <header class="page-header">
+            <h1>🎵 Elevator Music Composer</h1>
+            <p>Describe a mood. Get the elevator music album you never knew you needed.</p>
+        </header>
+
+        <div id="loading" class="loading">Tuning the lobby saxophone…</div>
+
+        <div id="app" style="display: none;">
+            <div class="input-section">
+                <input type="text" id="moodInput" class="text-input"
+                       placeholder="What mood are you in? (press Enter)"
+                       autocomplete="off" spellcheck="false">
+                <div id="lastMessage" class="last-message"></div>
+                <div class="mood-suggestions">
+                    Try: <span data-mood="melancholy">melancholy</span> ·
+                    <span data-mood="corporate despair">corporate despair</span> ·
+                    <span data-mood="anxious">anxious</span> ·
+                    <span data-mood="smooth jazz">smooth jazz</span> ·
+                    <span data-mood="bored in a meeting">bored in a meeting</span> ·
+                    <span data-mood="cheerful">cheerful</span>
+                </div>
+            </div>
+
+            <div id="result" style="display: none;">
+                <div class="card">
+                    <div class="album-header">
+                        <pre class="cover-art" id="coverArt"></pre>
+                        <div class="album-info">
+                            <div class="album-title" id="albumTitle"></div>
+                            <div class="album-artist" id="albumArtist"></div>
+                            <div class="album-meta">
+                                <span class="meta-tag meta-genre" id="albumGenre"></span>
+                                <span class="meta-tag meta-year" id="albumYear"></span>
+                                <span class="meta-tag meta-label" id="albumLabel"></span>
+                            </div>
+                            <p class="album-bio" id="albumBio"></p>
+                            <div class="album-stats">
+                                <div class="album-stat">
+                                    <div class="album-stat-value" id="avgRating"></div>
+                                    <div class="album-stat-label">Avg Rating</div>
+                                </div>
+                                <div class="album-stat">
+                                    <div class="album-stat-value" id="totalPlays"></div>
+                                    <div class="album-stat-label">Total Plays</div>
+                                </div>
+                                <div class="album-stat">
+                                    <div class="album-stat-value" id="monthlyListeners"></div>
+                                    <div class="album-stat-label">Monthly Listeners</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card tracklist-card">
+                    <h2>♪ Track Listing</h2>
+                    <table class="tracklist">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Title</th>
+                                <th>Duration</th>
+                                <th>BPM</th>
+                                <th>Key</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tracklistBody"></tbody>
+                    </table>
+                </div>
+
+                <div class="card reviews-card">
+                    <h2>★ Reviews</h2>
+                    <div id="reviewsContainer"></div>
+                </div>
+
+                <div class="sidebar-grid">
+                    <div class="sidebar-card">
+                        <h3>♫ Similar Artists</h3>
+                        <ul id="similarArtists"></ul>
+                    </div>
+                    <div class="sidebar-card">
+                        <h3>♪ Featured On</h3>
+                        <p><span class="playlist-name" id="topPlaylist"></span></p>
+                    </div>
+                </div>
+
+                <div class="actions">
+                    <button class="btn btn-primary" id="anotherBtn">🎲 Generate Another</button>
+                    <button class="btn btn-secondary" id="shareBtn">🔗 Share This Mood</button>
+                </div>
+            </div>
+
+            <div id="emptyState" class="empty-state">
+                <div class="icon">🎵</div>
+                <p>Enter a mood above to generate your elevator music album</p>
+                <p style="font-size: 0.8rem; margin-top: 0.5rem;">Every mood gets its own unique album, complete with cover art and reviews</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="toast" id="toast"></div>
+
+    <script src="../shared/wasm_exec.js"></script>
+    <script src="../shared/common.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>
