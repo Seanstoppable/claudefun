@@ -316,8 +316,10 @@
       setOctopusEmotion(dom.name);
       setBackgroundTint(dom.color);
 
-      // Wave reaction (~30% chance, or always on first input)
-      if (!hasInteracted || Math.random() < 0.3) {
+      // Wave reaction (~30% chance, but not when sad/angry/fearful)
+      const noWaveMoods = ['sadness', 'anger', 'fear'];
+      const canWave = !noWaveMoods.includes(dom.name.toLowerCase());
+      if (canWave && (!hasInteracted || Math.random() < 0.3)) {
         triggerWave();
       }
       hasInteracted = true;
