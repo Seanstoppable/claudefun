@@ -205,6 +205,10 @@
     const lower = emotion.toLowerCase();
     if (lower === currentEmotion) return;
 
+    // Transition burst effect
+    octopusSvg.classList.add('emotion-transitioning');
+    setTimeout(() => octopusSvg.classList.remove('emotion-transitioning'), 500);
+
     // Remove old emotion class, add new
     octopusSvg.classList.remove(currentEmotion);
     octopusSvg.classList.add(lower);
@@ -323,6 +327,24 @@
       console.error('analyzeMood error:', e);
     }
   }
+
+  // ── Cursor-tracking eyes ──
+  document.addEventListener('mousemove', (e) => {
+    const stage = document.getElementById('octopus-stage');
+    const rect = stage.getBoundingClientRect();
+    const cx = rect.left + rect.width / 2;
+    const cy = rect.top + rect.height / 2;
+
+    const dx = (e.clientX - cx) / rect.width;
+    const dy = (e.clientY - cy) / rect.height;
+
+    const maxOffset = 4;
+    const ox = dx * maxOffset;
+    const oy = dy * maxOffset;
+
+    document.documentElement.style.setProperty('--pupil-offset-x', ox + 'px');
+    document.documentElement.style.setProperty('--pupil-offset-y', oy + 'px');
+  });
 
   // ── Start ──
   init();

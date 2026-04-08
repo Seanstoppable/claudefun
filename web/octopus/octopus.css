@@ -116,12 +116,15 @@
   align-items: center;
   justify-content: center;
   margin: 0.5rem 0;
+  position: relative;
 }
 
 .octopus-svg {
   width: 100%;
   height: 100%;
   filter: drop-shadow(0 4px 20px rgba(0, 0, 0, 0.3));
+  position: relative;
+  z-index: 1;
 }
 
 /* Head/mantle */
@@ -181,12 +184,12 @@
 /* ── Idle animation ── */
 @keyframes bob {
   0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-6px); }
+  50% { transform: translateY(-15px); }
 }
 
 @keyframes breathe {
   0%, 100% { transform: scale(1); }
-  50% { transform: scale(1.02); }
+  50% { transform: scale(1.06); }
 }
 
 .octopus-svg {
@@ -196,6 +199,33 @@
 .octo-body-group {
   transform-origin: 160px 140px;
   animation: breathe 4s ease-in-out infinite;
+}
+
+/* Staggered per-arm idle sway */
+@keyframes armSway {
+  0%, 100% { transform: rotate(0deg); }
+  50% { transform: rotate(5deg); }
+}
+
+.octo-arm { transform-origin: 160px 200px; }
+#arm-l1 { animation: armSway 3.0s ease-in-out infinite 0.0s; }
+#arm-l2 { animation: armSway 3.5s ease-in-out infinite 0.3s; }
+#arm-l3 { animation: armSway 2.8s ease-in-out infinite 0.7s; }
+#arm-l4 { animation: armSway 3.2s ease-in-out infinite 1.0s; }
+#arm-r1 { animation: armSway 3.1s ease-in-out infinite 0.2s; }
+#arm-r2 { animation: armSway 3.4s ease-in-out infinite 0.5s; }
+#arm-r3 { animation: armSway 2.9s ease-in-out infinite 0.8s; }
+#arm-r4 { animation: armSway 3.3s ease-in-out infinite 1.1s; }
+
+/* Eye blink */
+@keyframes eyeBlink {
+  0%, 94%, 100% { transform: scaleY(1); }
+  96% { transform: scaleY(0.1); }
+}
+
+.octo-eye-white {
+  animation: eyeBlink 5s ease-in-out infinite;
+  transform-origin: center;
 }
 
 /* ── Joy ── */
@@ -209,15 +239,26 @@
   animation: joyWiggle 0.6s ease-in-out infinite, breathe 4s ease-in-out infinite;
 }
 
-@keyframes joyArmsWave {
+@keyframes joyArmWave1 {
   0%, 100% { transform: rotate(0deg); }
-  50% { transform: rotate(8deg); }
+  25% { transform: rotate(12deg); }
+  75% { transform: rotate(-8deg); }
 }
 
-.joy .octo-arms {
-  animation: joyArmsWave 0.8s ease-in-out infinite alternate;
-  transform-origin: 160px 190px;
+@keyframes joyArmWave2 {
+  0%, 100% { transform: rotate(0deg); }
+  30% { transform: rotate(-10deg); }
+  70% { transform: rotate(10deg); }
 }
+
+.joy #arm-l1 { animation: joyArmWave1 0.8s ease-in-out infinite; }
+.joy #arm-l2 { animation: joyArmWave2 1.0s ease-in-out infinite 0.2s; }
+.joy #arm-l3 { animation: joyArmWave1 0.9s ease-in-out infinite 0.4s; }
+.joy #arm-l4 { animation: joyArmWave2 1.1s ease-in-out infinite 0.1s; }
+.joy #arm-r1 { animation: joyArmWave2 0.85s ease-in-out infinite 0.15s; }
+.joy #arm-r2 { animation: joyArmWave1 1.05s ease-in-out infinite 0.35s; }
+.joy #arm-r3 { animation: joyArmWave2 0.95s ease-in-out infinite 0.25s; }
+.joy #arm-r4 { animation: joyArmWave1 1.15s ease-in-out infinite 0.45s; }
 
 /* ── Sadness ── */
 @keyframes sadSink {
@@ -232,6 +273,25 @@
 .sadness .octo-body-group {
   animation: breathe 6s ease-in-out infinite;
 }
+
+@keyframes sadArmDroop {
+  0%, 100% { transform: rotate(0deg) translateY(0); }
+  50% { transform: rotate(3deg) translateY(5px); }
+}
+
+@keyframes sadArmDroop2 {
+  0%, 100% { transform: rotate(0deg) translateY(0); }
+  50% { transform: rotate(-2deg) translateY(6px); }
+}
+
+.sadness #arm-l1 { animation: sadArmDroop 4.0s ease-in-out infinite 0.0s; }
+.sadness #arm-l2 { animation: sadArmDroop2 4.5s ease-in-out infinite 0.5s; }
+.sadness #arm-l3 { animation: sadArmDroop 5.0s ease-in-out infinite 1.0s; }
+.sadness #arm-l4 { animation: sadArmDroop2 4.8s ease-in-out infinite 0.3s; }
+.sadness #arm-r1 { animation: sadArmDroop2 4.2s ease-in-out infinite 0.2s; }
+.sadness #arm-r2 { animation: sadArmDroop 4.6s ease-in-out infinite 0.7s; }
+.sadness #arm-r3 { animation: sadArmDroop2 4.9s ease-in-out infinite 0.4s; }
+.sadness #arm-r4 { animation: sadArmDroop 5.2s ease-in-out infinite 0.9s; }
 
 /* ── Anger ── */
 @keyframes angerShake {
@@ -250,6 +310,29 @@
 .anger .octopus-svg {
   animation: bob 2s ease-in-out infinite;
 }
+
+@keyframes angerArmVibrate {
+  0%, 100% { transform: rotate(0deg); }
+  25% { transform: rotate(3deg); }
+  50% { transform: rotate(-3deg); }
+  75% { transform: rotate(2deg); }
+}
+
+@keyframes angerArmVibrate2 {
+  0%, 100% { transform: rotate(0deg); }
+  25% { transform: rotate(-4deg); }
+  50% { transform: rotate(4deg); }
+  75% { transform: rotate(-2deg); }
+}
+
+.anger #arm-l1 { animation: angerArmVibrate 0.3s ease-in-out infinite; }
+.anger #arm-l2 { animation: angerArmVibrate2 0.25s ease-in-out infinite 0.05s; }
+.anger #arm-l3 { animation: angerArmVibrate 0.35s ease-in-out infinite 0.1s; }
+.anger #arm-l4 { animation: angerArmVibrate2 0.28s ease-in-out infinite 0.02s; }
+.anger #arm-r1 { animation: angerArmVibrate2 0.32s ease-in-out infinite 0.08s; }
+.anger #arm-r2 { animation: angerArmVibrate 0.27s ease-in-out infinite 0.04s; }
+.anger #arm-r3 { animation: angerArmVibrate2 0.33s ease-in-out infinite 0.06s; }
+.anger #arm-r4 { animation: angerArmVibrate 0.3s ease-in-out infinite 0.03s; }
 
 /* ── Fear ── */
 @keyframes fearShrink {
@@ -271,6 +354,27 @@
   animation: bob 5s ease-in-out infinite;
 }
 
+@keyframes fearArmTremble {
+  0%, 100% { transform: rotate(0deg) scale(0.95); }
+  50% { transform: rotate(-2deg) scale(0.9); }
+}
+
+@keyframes fearArmTremble2 {
+  0%, 100% { transform: rotate(0deg) scale(0.95); }
+  50% { transform: rotate(2deg) scale(0.88); }
+}
+
+.fear #arm-l1 { animation: fearArmTremble 0.5s ease-in-out infinite 0.0s; }
+.fear #arm-l2 { animation: fearArmTremble2 0.45s ease-in-out infinite 0.1s; }
+.fear #arm-l3 { animation: fearArmTremble 0.55s ease-in-out infinite 0.15s; }
+.fear #arm-l4 { animation: fearArmTremble2 0.4s ease-in-out infinite 0.05s; }
+.fear #arm-r1 { animation: fearArmTremble2 0.48s ease-in-out infinite 0.08s; }
+.fear #arm-r2 { animation: fearArmTremble 0.52s ease-in-out infinite 0.12s; }
+.fear #arm-r3 { animation: fearArmTremble2 0.42s ease-in-out infinite 0.03s; }
+.fear #arm-r4 { animation: fearArmTremble 0.5s ease-in-out infinite 0.07s; }
+
+.fear .octo-eye-white { transform: scale(1.3); }
+
 /* ── Curiosity ── */
 @keyframes curiosityTilt {
   0%, 100% { transform: rotate(0deg); }
@@ -280,6 +384,25 @@
 .curiosity .octo-body-group {
   animation: curiosityTilt 3s ease-in-out infinite, breathe 4s ease-in-out infinite;
 }
+
+@keyframes curiosityReach {
+  0%, 100% { transform: rotate(0deg); }
+  50% { transform: rotate(-15deg) translateX(10px); }
+}
+
+@keyframes curiositySway {
+  0%, 100% { transform: rotate(0deg); }
+  50% { transform: rotate(4deg); }
+}
+
+.curiosity #arm-r1 { animation: curiosityReach 2.0s ease-in-out infinite; }
+.curiosity #arm-l1 { animation: curiositySway 3.2s ease-in-out infinite 0.0s; }
+.curiosity #arm-l2 { animation: curiositySway 3.5s ease-in-out infinite 0.3s; }
+.curiosity #arm-l3 { animation: curiositySway 3.0s ease-in-out infinite 0.6s; }
+.curiosity #arm-l4 { animation: curiositySway 3.3s ease-in-out infinite 0.9s; }
+.curiosity #arm-r2 { animation: curiositySway 3.4s ease-in-out infinite 0.4s; }
+.curiosity #arm-r3 { animation: curiositySway 3.1s ease-in-out infinite 0.7s; }
+.curiosity #arm-r4 { animation: curiositySway 3.6s ease-in-out infinite 1.0s; }
 
 /* ── Sleepy ── */
 @keyframes sleepyDroop {
@@ -305,6 +428,25 @@
 .sleepy .zzz2 { animation: zzzFloat 3s ease-in-out infinite 1s; }
 .sleepy .zzz3 { animation: zzzFloat 3s ease-in-out infinite 2s; }
 
+@keyframes sleepyArmDroop {
+  0%, 100% { transform: rotate(0deg) translateY(0); }
+  50% { transform: rotate(2deg) translateY(8px); }
+}
+
+@keyframes sleepyArmDroop2 {
+  0%, 100% { transform: rotate(0deg) translateY(0); }
+  50% { transform: rotate(-1.5deg) translateY(7px); }
+}
+
+.sleepy #arm-l1 { animation: sleepyArmDroop 5.0s ease-in-out infinite 0.0s; }
+.sleepy #arm-l2 { animation: sleepyArmDroop2 5.5s ease-in-out infinite 0.5s; }
+.sleepy #arm-l3 { animation: sleepyArmDroop 6.0s ease-in-out infinite 1.0s; }
+.sleepy #arm-l4 { animation: sleepyArmDroop2 5.8s ease-in-out infinite 0.3s; }
+.sleepy #arm-r1 { animation: sleepyArmDroop2 5.2s ease-in-out infinite 0.2s; }
+.sleepy #arm-r2 { animation: sleepyArmDroop 5.6s ease-in-out infinite 0.7s; }
+.sleepy #arm-r3 { animation: sleepyArmDroop2 5.9s ease-in-out infinite 0.4s; }
+.sleepy #arm-r4 { animation: sleepyArmDroop 6.2s ease-in-out infinite 0.9s; }
+
 /* ── Silly ── */
 @keyframes sillyBounce {
   0%, 100% { transform: translateY(0) rotate(0deg); }
@@ -313,21 +455,44 @@
   75% { transform: translateY(-4px) rotate(2deg); }
 }
 
-@keyframes sillyArms {
-  0%, 100% { transform: rotate(0deg); }
-  25% { transform: rotate(5deg); }
-  50% { transform: rotate(-5deg); }
-  75% { transform: rotate(3deg); }
-}
-
 .silly .octo-body-group {
   animation: sillyBounce 1.2s ease-in-out infinite;
 }
 
-.silly .octo-arms {
-  animation: sillyArms 0.6s ease-in-out infinite;
-  transform-origin: 160px 190px;
+@keyframes sillyArm1 {
+  0% { transform: rotate(0deg); }
+  25% { transform: rotate(20deg); }
+  50% { transform: rotate(-15deg); }
+  75% { transform: rotate(10deg); }
 }
+
+@keyframes sillyArm2 {
+  0% { transform: rotate(0deg); }
+  33% { transform: rotate(-12deg) translateY(-5px); }
+  66% { transform: rotate(18deg) translateY(5px); }
+}
+
+@keyframes sillyArm3 {
+  0% { transform: rotate(0deg); }
+  20% { transform: rotate(15deg); }
+  40% { transform: rotate(-20deg); }
+  60% { transform: rotate(8deg); }
+  80% { transform: rotate(-10deg); }
+}
+
+@keyframes sillyArm4 {
+  0% { transform: rotate(0deg) translateY(0); }
+  50% { transform: rotate(-25deg) translateY(-8px); }
+}
+
+.silly #arm-l1 { animation: sillyArm1 0.7s ease-in-out infinite; }
+.silly #arm-l2 { animation: sillyArm2 0.9s ease-in-out infinite 0.1s; }
+.silly #arm-l3 { animation: sillyArm3 0.6s ease-in-out infinite 0.2s; }
+.silly #arm-l4 { animation: sillyArm4 1.1s ease-in-out infinite 0.15s; }
+.silly #arm-r1 { animation: sillyArm2 0.75s ease-in-out infinite 0.05s; }
+.silly #arm-r2 { animation: sillyArm3 0.85s ease-in-out infinite 0.25s; }
+.silly #arm-r3 { animation: sillyArm1 0.65s ease-in-out infinite 0.3s; }
+.silly #arm-r4 { animation: sillyArm4 0.95s ease-in-out infinite 0.12s; }
 
 /* ── Love ── */
 @keyframes lovePulse {
@@ -341,6 +506,85 @@
 
 .love .octopus-svg {
   animation: bob 3s ease-in-out infinite;
+}
+
+@keyframes loveArmPulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.08); }
+}
+
+@keyframes loveArmSway {
+  0%, 100% { transform: rotate(0deg); }
+  50% { transform: rotate(3deg); }
+}
+
+.love #arm-l1 { animation: loveArmPulse 1.5s ease-in-out infinite; }
+.love #arm-r1 { animation: loveArmPulse 1.5s ease-in-out infinite; }
+.love #arm-l2 { animation: loveArmSway 3.0s ease-in-out infinite 0.2s; }
+.love #arm-l3 { animation: loveArmSway 3.4s ease-in-out infinite 0.5s; }
+.love #arm-l4 { animation: loveArmSway 3.2s ease-in-out infinite 0.8s; }
+.love #arm-r2 { animation: loveArmSway 3.1s ease-in-out infinite 0.3s; }
+.love #arm-r3 { animation: loveArmSway 3.5s ease-in-out infinite 0.6s; }
+.love #arm-r4 { animation: loveArmSway 3.3s ease-in-out infinite 0.9s; }
+
+/* ── Emotion transition effect ── */
+@keyframes emotionBurst {
+  0% { transform: scale(1); }
+  20% { transform: scale(0.85); }
+  50% { transform: scale(1.12); }
+  70% { transform: scale(0.98); }
+  100% { transform: scale(1); }
+}
+
+.emotion-transitioning .octo-body-group {
+  animation: emotionBurst 0.5s ease-out !important;
+}
+
+@keyframes mantleFlash {
+  0% { filter: brightness(1); }
+  30% { filter: brightness(1.5); }
+  100% { filter: brightness(1); }
+}
+
+.emotion-transitioning .octo-mantle {
+  animation: mantleFlash 0.4s ease-out;
+}
+
+/* ── Cursor-tracking pupils ── */
+.octo-pupil {
+  transition: transform 0.1s ease;
+  transform: translate(var(--pupil-offset-x, 0), var(--pupil-offset-y, 0));
+}
+
+/* ── Emotion-specific eye effects ── */
+.anger .octo-eye-white { transform: scaleY(0.7); }
+
+/* ── Ambient bubbles ── */
+.bubbles {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+  z-index: 0;
+}
+
+@keyframes bubbleFloat {
+  0% { transform: translateY(100%) scale(0); opacity: 0; }
+  10% { opacity: 0.6; transform: translateY(90%) scale(1); }
+  90% { opacity: 0.3; }
+  100% { transform: translateY(-20%) scale(0.5); opacity: 0; }
+}
+
+.bubble {
+  position: absolute;
+  left: var(--x);
+  width: var(--size);
+  height: var(--size);
+  border-radius: 50%;
+  background: var(--current-emotion, var(--accent-teal));
+  opacity: 0;
+  animation: bubbleFloat var(--duration) ease-in-out infinite;
+  animation-delay: var(--delay);
 }
 
 /* ── Mood display ── */
