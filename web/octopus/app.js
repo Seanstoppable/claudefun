@@ -200,6 +200,14 @@
       h.map((e) => `<span class="history-emoji">${escHtml(e)}</span>`).join('');
   }
 
+  // ── Wave reaction ──
+  let hasInteracted = false;
+
+  function triggerWave() {
+    octopusSvg.classList.add('waving');
+    setTimeout(() => octopusSvg.classList.remove('waving'), 1200);
+  }
+
   // ── Set emotion on octopus ──
   function setOctopusEmotion(emotion) {
     const lower = emotion.toLowerCase();
@@ -307,6 +315,12 @@
       // Update octopus
       setOctopusEmotion(dom.name);
       setBackgroundTint(dom.color);
+
+      // Wave reaction (~30% chance, or always on first input)
+      if (!hasInteracted || Math.random() < 0.3) {
+        triggerWave();
+      }
+      hasInteracted = true;
 
       // Breakdown
       renderBreakdown(result.all);
