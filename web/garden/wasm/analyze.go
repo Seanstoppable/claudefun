@@ -185,6 +185,16 @@ func countFunctions(trimmed, lang string, fs *FileStats) {
 		if strings.HasPrefix(trimmed, "def ") {
 			fs.Functions++
 		}
+	case "Java":
+		if (strings.HasPrefix(trimmed, "public ") || strings.HasPrefix(trimmed, "private ") ||
+			strings.HasPrefix(trimmed, "protected ") || strings.HasPrefix(trimmed, "static ") ||
+			strings.HasPrefix(trimmed, "void ") || strings.HasPrefix(trimmed, "abstract ")) &&
+			strings.Contains(trimmed, "(") && !strings.HasPrefix(trimmed, "import ") &&
+			!strings.HasPrefix(trimmed, "package ") && !strings.Contains(trimmed, " class ") &&
+			!strings.Contains(trimmed, " interface ") && !strings.Contains(trimmed, " enum ") &&
+			!strings.Contains(trimmed, " new ") {
+			fs.Functions++
+		}
 	}
 }
 
@@ -326,5 +336,5 @@ func (cs *CodebaseStats) ComputeHealth() float64 {
 		score = 100
 	}
 
-	return math.Round(score)
+		return math.Round(score)
 }

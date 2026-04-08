@@ -1,9 +1,15 @@
-# Compiled binaries
-*.wasm
+# Compiled CLI binaries
 constellation/constellation-composer
 pizza/infinite-pizza
 gitshanty/git-shanty
 kingdom/tiny-kingdom
+cartographer/imaginary-cartographer
+elevator/elevator-music
+garden/code-garden
+
+# WASM build artifacts in source dirs (not the deployed ones)
+web/*/wasm/wasm
+web/*/wasm/*-wasm
 
 # Test artifacts
 constellation/out.svg
@@ -11,8 +17,3 @@ constellation/test.svg
 
 # OS files
 .DS_Store
-cartographer/imaginary-cartographer
-*/wasm/wasm
-*-wasm
-*-wasm
-elevator/elevator-music

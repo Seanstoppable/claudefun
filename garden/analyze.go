@@ -261,7 +261,17 @@ func countFunctions(trimmed, lang string, fs *FileStats) {
 			fs.Functions++
 		}
 	case "Java":
-		// Java doesn't have a simple keyword; skip for now
+		// Detect Java methods: access modifiers + return type + name + paren
+		// e.g. "public void foo(", "private static int bar(", "protected String baz("
+		if (strings.HasPrefix(trimmed, "public ") || strings.HasPrefix(trimmed, "private ") ||
+			strings.HasPrefix(trimmed, "protected ") || strings.HasPrefix(trimmed, "static ") ||
+			strings.HasPrefix(trimmed, "void ") || strings.HasPrefix(trimmed, "abstract ")) &&
+			strings.Contains(trimmed, "(") && !strings.HasPrefix(trimmed, "import ") &&
+			!strings.HasPrefix(trimmed, "package ") && !strings.Contains(trimmed, " class ") &&
+			!strings.Contains(trimmed, " interface ") && !strings.Contains(trimmed, " enum ") &&
+			!strings.Contains(trimmed, " new ") {
+			fs.Functions++
+		}
 	case "Ruby":
 		if strings.HasPrefix(trimmed, "def ") {
 			fs.Functions++
@@ -311,6 +321,12 @@ func countTests(trimmed, lang string, isJSTestFile bool, fs *FileStats) {
 			(strings.HasPrefix(trimmed, "it(") || strings.HasPrefix(trimmed, "test(") ||
 				strings.HasPrefix(trimmed, "it('") || strings.HasPrefix(trimmed, "test('") ||
 				strings.HasPrefix(trimmed, "it(\"") || strings.HasPrefix(trimmed, "test(\"")) {
+			fs.Tests++
+		}
+	case "Java":
+		if strings.HasPrefix(trimmed, "@Test") ||
+			strings.HasPrefix(trimmed, "@ParameterizedTest") ||
+			strings.HasPrefix(trimmed, "@RepeatedTest") {
 			fs.Tests++
 		}
 	}
