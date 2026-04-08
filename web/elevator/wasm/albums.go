@@ -84,6 +84,20 @@ var bandNames = []string{
 	"Elevator & The Shafts",
 	"The Lukewarm Takes",
 	"Lobby Lizards",
+	"The Beige Frequency",
+	"Comfort Zone & The Status Quos",
+	"The Moderate Expectations",
+	"Ambient Gary",
+	"The Fluorescent Lights",
+	"DJ Intermission",
+	"The Soft Landings",
+	"Neutral Milk Motel",
+	"The Background Checks",
+	"Passive Income (the band)",
+	"The Mild Manners",
+	"Blandscape Artists",
+	"The Gentle Reminders",
+	"Muzak Attack",
 }
 
 var artistBios = []string{

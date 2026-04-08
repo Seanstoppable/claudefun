@@ -88,6 +88,9 @@ var ruinNouns = []string{
 
 var monolithAdjs = []string{
 	"Whispering", "Leaning", "Singing", "Judgmental", "Indifferent",
+	"Apologetic", "Overthinking", "Sarcastic", "Nostalgic", "Procrastinating",
+	"Philosophical", "Reluctant", "Optimistic", "Argumentative", "Condescending",
+	"Melodramatic", "Disappointed",
 }
 
 // ── symbol / icon tables ──────────────────────────────────────────────

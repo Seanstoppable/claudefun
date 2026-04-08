@@ -109,6 +109,18 @@ var featuredArtists = []string{
 	"feat. The Waiting Room Choir",
 	"feat. Anonymous Flautist",
 	"feat. Patricia & The Hold Tones",
+	"feat. The Fluorescent Hum Ensemble",
+	"feat. Smooth Dave on Bass",
+	"feat. The Ambient Temps",
+	"feat. Linda from HR (spoken word)",
+	"feat. The Mezzanine Horns",
+	"feat. DJ Elevator Pitch",
+	"feat. The Carpet Whisperers",
+	"feat. Muzak Mike on Vibraphone",
+	"feat. The Atrium Echoes",
+	"feat. Gentle Brenda & The Soft Tones",
+	"feat. The Conference Room B Players",
+	"feat. An Unidentified Pianist",
 }
 
 // ---------------------------------------------------------------------------
@@ -116,18 +128,18 @@ var featuredArtists = []string{
 // ---------------------------------------------------------------------------
 
 var genreBonusTitles = map[Genre][]string{
-	AmbientLobby:      {"Lobby Drift", "Atrium Echo", "Revolving Door Reverie"},
-	CorporateZen:      {"Synergy in E♭", "Team-Building Ballad", "Fiscal Quarter Lullaby"},
-	WaitingRoomJazz:   {"Magazine Table Blues", "Old Highlights Reel", "Waiting Room Waltz"},
-	HoldMusicDeluxe:   {"Please Continue to Hold", "Your Call Is Important", "Estimated Wait: Forever"},
-	DentistOfficeCore:  {"Open Wide (Softly)", "Novocaine Dreams", "Drill-Free Zone"},
-	ParkingGarageWave:  {"Level P3 Ambient", "Concrete Echo", "Ticket Lost, Vibes Found"},
-	SoftRockPurgatory:  {"Hotel Breakfast Anthem", "Endless Checkout Lane", "FM Dial Purgatory"},
-	AcousticBeige:      {"Off-White Serenade", "Khaki Afternoon", "Eggshell Emotions"},
-	LoFiElevator:       {"Crackle & Ascend", "Dusty Lobby Tape", "VHS Lobby Footage"},
-	SmoothBureaucracy:  {"Form B-7 (Smooth Mix)", "Permit Pending Groove", "Filing Cabinet Funk"},
-	MidtempoMalaise:    {"Not Sad, Just Indoors", "Moderate Disappointment", "Grey Sky Groove"},
-	SuburbanAmbient:    {"Cul-de-Sac Calm", "Sprinkler System ASMR", "HOA-Approved Vibes"},
+	AmbientLobby:      {"Lobby Drift", "Atrium Echo", "Revolving Door Reverie", "Potted Plant Serenade", "Welcome Desk Meditation"},
+	CorporateZen:      {"Synergy in E♭", "Team-Building Ballad", "Fiscal Quarter Lullaby", "Mandatory Fun Overture", "Stakeholder Lullaby"},
+	WaitingRoomJazz:   {"Magazine Table Blues", "Old Highlights Reel", "Waiting Room Waltz", "Expired Coupon Nocturne", "Two-Year-Old People Magazine Groove"},
+	HoldMusicDeluxe:   {"Please Continue to Hold", "Your Call Is Important", "Estimated Wait: Forever", "Press 1 for Serenity", "All Representatives Are Busy"},
+	DentistOfficeCore:  {"Open Wide (Softly)", "Novocaine Dreams", "Drill-Free Zone", "Fluoride Fantasia", "Rinse and Spit Sonata"},
+	ParkingGarageWave:  {"Level P3 Ambient", "Concrete Echo", "Ticket Lost, Vibes Found", "Ramp Spiral Meditation", "Exit Sign Glow"},
+	SoftRockPurgatory:  {"Hotel Breakfast Anthem", "Endless Checkout Lane", "FM Dial Purgatory", "Continental Breakfast Ballad", "Complimentary Coffee Groove"},
+	AcousticBeige:      {"Off-White Serenade", "Khaki Afternoon", "Eggshell Emotions", "Taupe Sunrise", "Cream-Colored Thoughts"},
+	LoFiElevator:       {"Crackle & Ascend", "Dusty Lobby Tape", "VHS Lobby Footage", "Tape Hiss Lullaby", "Analog Floor Indicator"},
+	SmoothBureaucracy:  {"Form B-7 (Smooth Mix)", "Permit Pending Groove", "Filing Cabinet Funk", "Rubber Stamp Rhythm", "Inbox Zero Zen"},
+	MidtempoMalaise:    {"Not Sad, Just Indoors", "Moderate Disappointment", "Grey Sky Groove", "Overcast but Manageable", "Room Temperature Feelings"},
+	SuburbanAmbient:    {"Cul-de-Sac Calm", "Sprinkler System ASMR", "HOA-Approved Vibes", "Garage Door Symphony", "Neighbor's Lawnmower Remix"},
 }
 
 // ---------------------------------------------------------------------------

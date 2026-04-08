@@ -58,6 +58,14 @@ var fiveStarTemplates = []string{
 	"Finally, music that matches the exact energy of standing in line at the DMV. Transcendent.",
 	"This album got me through a 47-minute hold with my insurance company. I owe {artist} my sanity.",
 	"I fell asleep to this and woke up a better person. 10/10, would gently doze again.",
+	"My dentist plays this and I've started booking unnecessary appointments just to listen.",
+	"I played this at my wedding and nobody noticed. That's the highest compliment I can give.",
+	"Listened to this during a root canal. Didn't feel a thing. The music, I mean — the root canal was awful.",
+	"This is the auditory equivalent of a warm beige cardigan. I mean that with my whole heart.",
+	"I ascended 14 floors and experienced ego death. {artist} is a prophet of the mundane.",
+	"Put this on during a power outage and the elevator still felt like it was moving. Magical.",
+	"My blood pressure dropped 20 points. My doctor wants {artist}'s discography on prescription.",
+	"I've listened to this 847 times. Each time I notice something new. Each time it's nothing. Perfect.",
 }
 
 var midStarTemplates = []string{
@@ -65,6 +73,14 @@ var midStarTemplates = []string{
 	"Track 4 made me feel something, which isn't really what I come to elevator music for, but I'll allow it.",
 	"Good background music for existing. Not great, not terrible. Like a C+ in music form.",
 	"My therapist recommended this album. I'm not sure if that's an endorsement.",
+	"It's fine. Everything is fine. This music confirms that everything is fine.",
+	"Three out of five stars. Would have been four but track 6 made me briefly aware of my own mortality.",
+	"Solid lobby energy. Not quite 'executive suite' but definitely above 'parking garage stairwell.'",
+	"I played this during a conference call and nobody could tell when the music stopped and the meeting started.",
+	"Would be perfect if it were slightly more forgettable. As it stands, I can almost remember it.",
+	"Like emotional room temperature. Not warm, not cold. Just... present.",
+	"My cat was indifferent to this album, which in elevator music terms is a rave review.",
+	"Acceptable. The musical equivalent of a polite nod from a stranger.",
 }
 
 var lowStarTemplates = []string{
@@ -72,6 +88,14 @@ var lowStarTemplates = []string{
 	"This has a saxophone solo that demands attention. That defeats the entire purpose.",
 	"I could identify individual notes. Elevator music should be more... vague.",
 	"Made my coworker ask 'what are we listening to?' — the cardinal sin of background music.",
+	"I remembered a melody from this album. In elevator music, that's a catastrophic failure.",
+	"Track 3 has a key change. A KEY CHANGE. This isn't a Broadway show, {artist}.",
+	"Someone tapped their foot. In a LOBBY. Do you understand what you've done?",
+	"This music has opinions. Elevator music should have the conviction of a wet napkin.",
+	"I felt an emotion during track 7. Unacceptable. I listen to elevator music to feel nothing.",
+	"The tempo exceeded 100 BPM on two tracks. That's practically a rave.",
+	"A child in the elevator said 'I like this song.' You have failed as an artist.",
+	"There's a bass drop on track 9. A BASS DROP. In ELEVATOR MUSIC. One star is generous.",
 }
 
 var similarArtists = []string{

@@ -122,6 +122,14 @@ var monsterAdvice = []string{
 	"humming loudly and avoiding eye contact",
 	"offering it a cup of tea",
 	"backing away slowly while applauding",
+	"reciting poetry in a calm but authoritative voice",
+	"throwing a decoy hat in the opposite direction",
+	"complimenting its posture and excusing yourself",
+	"standing very still and thinking about cheese",
+	"apologising profusely in a foreign accent",
+	"challenging it to a game of chess (carry a travel set)",
+	"reading aloud from the nearest Terms and Conditions",
+	"waving a white handkerchief while moonwalking",
 }
 
 var cursedFeatures = []string{
@@ -145,6 +153,13 @@ var cursedEffects = []string{
 	"a persistent belief that it is always Wednesday",
 	"walking slightly to the left for the rest of the day",
 	"suddenly knowing the complete history of spoons",
+	"an unshakeable conviction that they are being narrated",
+	"their shadow arriving three seconds late",
+	"involuntarily winking at strangers",
+	"perceiving all doors as slightly too small",
+	"developing strong opinions about fonts",
+	"their applause becoming inexplicably slow",
+	"briefly forgetting what chairs are for",
 }
 
 var cursedSigns = []string{
@@ -156,11 +171,24 @@ var cursedSigns = []string{
 	"If You Can Read This, It's Already Too Late",
 	"Please Curse Responsibly",
 	"No Refunds On Your Sense Of Direction",
+	"Haunted By Appointment Only",
+	"Trespassers Will Be Mildly Inconvenienced",
+	"Do Not Tap The Glass (There Is No Glass)",
+	"This Area Provided As-Is, Without Warranty",
+	"Caution: Cursing In Progress — Hard Hats Optional",
+	"Beyond This Point, All Complaints Are Alphabetised And Ignored",
+	"Mind The Existential Gap",
+	"Abandon All Hats, Ye Who Enter Here",
 }
 
 var cursedDays = []string{
 	"Tuesday", "Thursday", "every other Wednesday", "full moon",
 	"days ending in 'y'", "bank holiday", "the third Sunday of months with an R in them",
+	"the solstice", "new moon", "leap day",
+	"any day the wind blows from the north", "Mondays (obviously)",
+	"the second breakfast hour", "days when the fog is particularly judgmental",
+	"whenever the church bell rings thirteen times", "alternate Saturdays",
+	"the anniversary of something nobody can remember",
 }
 
 var heroNames = []string{
@@ -195,6 +223,15 @@ var heroFestivals = []string{
 	"The Grand Celebration of Adequate Achievement",
 	"The Procession of Polite Applause",
 	"The Week of Lukewarm Remembrance",
+	"The Symposium of Accidental Victories",
+	"The Evening of Reluctant Toasts",
+	"The March of the Vaguely Competent",
+	"The Biannual Shrug of Gratitude",
+	"The Afternoon of Gentle Exaggeration",
+	"The Gala of Participation Trophies",
+	"The Quiet Acknowledging Nod Festival",
+	"The Day of Surprisingly Low Expectations",
+	"The Pageant of Almost Getting It Right",
 }
 
 var mysteryAdjectives = []string{
@@ -211,6 +248,14 @@ var mysteryTimePeriods = []string{
 	"full moon", "leap year", "third Thursday of the month",
 	"whenever it feels like it", "every seventeen minutes",
 	"the autumn equinox", "Tuesdays (but only in winter)",
+	"precisely noon on days that don't exist",
+	"the vernal equinox (give or take)",
+	"every time someone nearby sneezes",
+	"at the exact moment tea is served",
+	"during particularly dramatic sunsets",
+	"the stroke of midnight on a Wednesday",
+	"once per fortnight, weather permitting",
+	"when the barometric pressure is 'vibes'",
 }
 
 var warnings = []string{
@@ -230,12 +275,18 @@ var landscapeFeatures = []string{
 	"the crooked hill", "the eastern bluff", "the old millpond",
 	"the twisted oak grove", "the northern ridge", "the sunken meadow",
 	"the chalk cliffs", "the mossy ravine", "the wobbling spire",
+	"the whispering hollow", "the lopsided tor", "the boggy ditch",
+	"the peculiar outcrop", "the leaning pines", "the forgotten quarry",
+	"the perpetually damp gully",
 }
 
 var landmarks = []string{
 	"the old bridge", "the town square", "the abandoned mill",
 	"the northern gate", "the market fountain", "the bell tower",
 	"the docks at dawn", "the crossroads shrine", "the graveyard fence",
+	"the council steps", "the baker's lane", "the tilted signpost",
+	"the parish noticeboard", "the second-best well", "the lamplighter's corner",
+	"the overgrown bandstand",
 }
 
 // ---------------------------------------------------------------------------

@@ -70,6 +70,15 @@ var characters = []string{
 	"a philosopher who argued with the void",
 	"twin rivers that flowed upward into the heavens",
 	"a whale made entirely of song",
+	"a clockmaker who wound the stars",
+	"a child who could speak to comets",
+	"a librarian of forgotten constellations",
+	"a cartographer who mapped the spaces between stars",
+	"a musician whose instrument was the aurora",
+	"a gardener who planted light in dark soil",
+	"a glassblower who shaped nebulae",
+	"a poet who wrote in meteor showers",
+	"a lighthouse keeper at the edge of the universe",
 }
 
 var conflicts = []string{
@@ -79,6 +88,15 @@ var conflicts = []string{
 	"forgot their purpose and began to wander",
 	"discovered that the sky was not infinite after all",
 	"tried to count every grain of sand to earn immortality",
+	"waged a war against silence and lost beautifully",
+	"bargained with time and received only riddles",
+	"split into two halves, each claiming to be the original",
+	"refused to set and was punished with eternal rising",
+	"learned the true name of the void and could not unlearn it",
+	"carried a secret so heavy it bent the light around them",
+	"tried to teach the ocean to be still",
+	"was betrayed by their own reflection in a frozen lake",
+	"dared to love something that could never love back",
 }
 
 var morals = []string{
@@ -90,6 +108,13 @@ var morals = []string{
 	"Brilliance is not the absence of darkness, but the courage to shine within it.",
 	"Every constellation is a story waiting to be read by the right eyes.",
 	"The stars do not compete with one another. They simply shine.",
+	"What the stars promise, the dawn must honor.",
+	"To hold light, you must first learn to hold darkness.",
+	"The universe writes no rough drafts — every moment is the final version.",
+	"Patience is just courage moving very slowly.",
+	"Sometimes the most heroic act is simply continuing to glow.",
+	"The sky has no ceiling for those who refuse to stop climbing.",
+	"A single spark of wonder is worth more than a library of certainty.",
 }
 
 var poeticConditions = []string{
@@ -98,11 +123,24 @@ var poeticConditions = []string{
 	"silence itself had a sound and that sound was beautiful",
 	"the sky wore its stars like an empress wears jewels",
 	"every river ran with liquid moonlight",
+	"shadows had weight and substance",
+	"silence was a color you could see",
+	"stars still remembered their own names",
+	"time flowed like honey through a sieve",
+	"the boundary between dreaming and waking had not yet been drawn",
+	"echoes arrived before the sounds that made them",
+	"the sky was still learning how to be blue",
+	"memory and prophecy were the same thing",
+	"colors had not yet decided which was which",
+	"stones could still weep",
 }
 
 var abstractThings = []string{
 	"clocks", "written language", "sorrow", "borders",
 	"the naming of seasons", "doubt", "gravity",
+	"mirrors", "forgiveness", "the concept of distance",
+	"music", "jealousy", "the number zero",
+	"loneliness", "the idea of tomorrow", "memory",
 }
 
 var events = []string{
@@ -111,6 +149,16 @@ var events = []string{
 	"every bird in the world fell silent for one perfect hour",
 	"a single tear fell from the eye of the oldest mountain",
 	"the wind itself forgot which direction to blow",
+	"the last dragon breathed its final constellation into the sky",
+	"two parallel lines met and the universe held its breath",
+	"a star fell in love with its own light and collapsed inward",
+	"the first snowflake formed and every crystal since has been an echo",
+	"the compass rose bloomed for the first time",
+	"a sleeping god turned over and rearranged the continents",
+	"the oldest story was told for the last time and the sky dimmed",
+	"the sea and the sky agreed to trade places for one hour",
+	"a forgotten word was remembered and thunder followed",
+	"the universe paused to admire its own reflection",
 }
 
 var adjectives = []string{
@@ -121,6 +169,11 @@ var adjectives = []string{
 var verbs = []string{
 	"name the seasons", "weep", "build walls", "tell lies",
 	"count the days", "forget their dreams",
+	"sing to strangers", "break promises", "plant gardens",
+	"write letters they never send", "measure the wind",
+	"paint the invisible", "argue with mirrors",
+	"collect echoes", "bury their secrets",
+	"dance without music",
 }
 
 var origins = []string{
@@ -129,6 +182,16 @@ var origins = []string{
 	"a song that was too beautiful to remain mere sound",
 	"a promise made between the earth and the void",
 	"the sparks struck when two celestial swords clashed",
+	"a tear shed by the goddess of mathematics",
+	"the echo of the first word ever spoken",
+	"a door that opened onto nothing and everything",
+	"the shadow of a bird that flew too close to eternity",
+	"a map that drew itself",
+	"the laughter of a star that found its own existence absurd",
+	"the moment between one heartbeat and the next",
+	"a question that was never answered and so became permanent",
+	"the dust of a clock that measured the wrong kind of time",
+	"a dream that refused to end when the dreamer woke",
 }
 
 var wisdoms = []string{
@@ -137,6 +200,16 @@ var wisdoms = []string{
 	"every ending is just a beginning viewed from the wrong direction",
 	"even the cosmos needs witnesses",
 	"what is lost in one world may be found in another",
+	"to name a star is to make a promise to the dark",
+	"some truths can only be spoken in starlight",
+	"the space between notes is what makes music possible",
+	"not everything that fades is forgotten",
+	"the universe owes you nothing, which makes its gifts all the more precious",
+	"even silence tells a story if you know how to listen",
+	"the stars are patient because they know the ending",
+	"what is infinite cannot be possessed",
+	"every map has edges but the territory does not",
+	"to witness beauty is to participate in its creation",
 }
 
 var qualities = []string{
@@ -145,22 +218,59 @@ var qualities = []string{
 	"the quiet power of things that endure",
 	"the strange mercy of the universe",
 	"the elegance of unfinished things",
+	"the recklessness of compassion",
+	"the weight of unspoken words",
+	"the geometry of grief",
+	"the persistence of starlight",
+	"the tenderness of thunderstorms",
+	"the audacity of small things",
+	"the patience of stone",
+	"the defiance of a single candle flame",
+	"the gravity of laughter",
+	"the mathematics of longing",
 }
 
 var latitudes = []string{
 	"37°N to 42°N", "the southern tropics", "anywhere north of sadness",
 	"the exact latitude of your happiest memory", "60°S, give or take a sigh",
+	"the exact center of nowhere in particular",
+	"23.5° of pure imagination",
+	"wherever the compass needle hesitates",
+	"the latitude where parallel lines finally meet",
+	"between the Tropic of Memory and the Arctic of Forgetting",
+	"51°N, if the wind is feeling honest",
+	"the coordinates your heart already knows",
+	"0° — the equator of possibility",
+	"the longitude of last Tuesday",
+	"any point where land meets longing",
 }
 
 var months = []string{
 	"the month the ancients called 'Second Silence'",
 	"late autumn", "midsummer", "the week before the equinox",
 	"any month that contains a Tuesday",
+	"deep winter, when even the stars shiver",
+	"early spring, before the flowers have made up their minds",
+	"the month between months that only poets can find",
+	"the last week of the year, when time runs thin",
+	"the first warm night of the season",
+	"mid-March, when the world remembers how to be green",
+	"August, when the sky forgets to get dark",
+	"October, when the veil between worlds grows translucent",
+	"the solstice, whichever one feels more appropriate",
+	"a month that exists only in dreams and old calendars",
+	"February, the shortest month with the longest nights",
 }
 
 var foods = []string{
 	"pomegranates", "salted bread", "something you baked yourself",
 	"honeycomb", "cold soup", "anything fermented under moonlight",
+	"star-shaped cookies", "tea brewed from midnight rain",
+	"figs stolen from a neighbor's garden", "bread still warm from the oven",
+	"candied violets", "wine older than your oldest regret",
+	"a single perfect olive", "cloudberries",
+	"something your grandmother would have made",
+	"cheese aged in a cave with excellent acoustics",
 }
 
 // ── helpers ────────────────────────────────────────────────────────────

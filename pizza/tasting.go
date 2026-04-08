@@ -143,6 +143,34 @@ func (t *TastingNoteGenerator) renderFlavorTemplate(idx int, ingredients []Ingre
 		return fmt.Sprintf(
 			"There's a minerality here that suggests the %s has been on a personal journey.",
 			t.pickIngredient(ingredients).Name)
+	case 8: // tension
+		return fmt.Sprintf(
+			"There is a tension between the %s and the %s — not hostile, but charged. Electric, even.",
+			t.pickIngredient(ingredients).Name, t.pickIngredient(ingredients).Name)
+	case 9: // conversation
+		return fmt.Sprintf(
+			"The %s is in quiet conversation with the %s, exchanging secrets you weren't meant to overhear.",
+			t.pickFlavor(ingredients), t.pickFlavor(ingredients))
+	case 10: // gravity
+		return fmt.Sprintf(
+			"The %s has a gravitational pull that draws every other flavor into its orbit.",
+			t.pickIngredient(ingredients).Name)
+	case 11: // archaeology
+		return fmt.Sprintf(
+			"Each layer reveals something new — the %s is an archaeological dig of flavor.",
+			t.pickIngredient(ingredients).Name)
+	case 12: // rebellion
+		return fmt.Sprintf(
+			"The %s stages a quiet rebellion against everything you thought pizza could be.",
+			t.pickIngredient(ingredients).Name)
+	case 13: // meditation
+		return fmt.Sprintf(
+			"A meditation on %s that somehow makes you reconsider your relationship with %s.",
+			t.pickFlavor(ingredients), t.pickFlavor(ingredients))
+	case 14: // architecture
+		return fmt.Sprintf(
+			"The structural integrity of the %s is nothing short of architectural triumph.",
+			t.pickIngredient(ingredients).Name)
 	default:
 		return fmt.Sprintf(
 			"Notes of %s dance across the palate with reckless abandon.",
@@ -171,6 +199,20 @@ func (t *TastingNoteGenerator) restaurantName() string {
 		return t.pick(restaurantNouns) + " & " + t.pick(restaurantNouns)
 	case 4:
 		return "Le Petit " + t.pick(restaurantNouns)
+	case 5:
+		return "Osteria " + t.pick(chefLastNames)
+	case 6:
+		return "Casa di " + t.pick(chefFirstNames)
+	case 7:
+		return "The Grand " + t.pick(restaurantNouns)
+	case 8:
+		return "Atelier " + t.pick(chefLastNames)
+	case 9:
+		return "Trattoria " + t.pick(chefFirstNames)
+	case 10:
+		return "La Table de " + t.pick(chefFirstNames)
+	case 11:
+		return "The Secret " + t.pick(restaurantNouns)
 	default:
 		return "The Gilded " + t.pick(restaurantNouns)
 	}
@@ -186,9 +228,11 @@ var openingTemplates = [10]string{
 	"close your eyes", "layers",
 }
 
-var flavorTemplates = [8]string{
+var flavorTemplates = [15]string{
 	"umami", "notes", "textural", "hints",
 	"marriage", "whisper", "je ne sais quoi", "minerality",
+	"tension", "conversation", "gravity", "archaeology",
+	"rebellion", "meditation", "architecture",
 }
 
 var closingLines = []string{
@@ -199,6 +243,15 @@ var closingLines = []string{
 	"Would order again. Would not explain to friends.",
 	"This pizza got a standing ovation from my taste buds and a restraining order from my cardiologist.",
 	"Michelin stars are too pedestrian for this creation.",
+	"Serve this at a dinner party and watch friendships dissolve and reform, stronger.",
+	"The aftertaste lingers like a memory you can't quite place but don't want to forget.",
+	"If this pizza were a film, it would win Best Foreign Language at the Oscars.",
+	"Eat with your eyes closed. Your other senses will write you a thank-you note.",
+	"This pizza doesn't pair with wine. Wine pairs with this pizza.",
+	"One does not simply 'eat' this pizza. One experiences it, survives it, and is reborn.",
+	"The crust alone deserves its own biography.",
+	"Best consumed while staring pensively out a rain-streaked window.",
+	"A flavor journey that begins in curiosity and ends in surrender.",
 }
 
 var pairings = []string{
@@ -220,6 +273,18 @@ var chefQuoteTemplates = []string{
 	"\"I wept when I first tasted this. Then I wept again because I didn't think of it first.\"",
 	"\"This pizza is the reason I went to culinary school. And also the reason I sometimes question it.\"",
 	"\"Bold. Unhinged. Perfect.\"",
+	"\"I served this to my mentor and she threw her toque on the ground. In respect.\"",
+	"\"If I could only eat one pizza for the rest of my life, I would simply refuse to choose. But this would be a strong contender.\"",
+	"\"I blacked out after the first bite and woke up with three new recipes.\"",
+	"\"My grandmother would disown me. My grandmother is wrong.\"",
+	"\"This isn't a pizza. It's an apology letter to every boring pizza that came before it.\"",
+	"\"I showed this to my therapist. She said it explained a lot about me.\"",
+	"\"Some call it reckless. I call it Tuesday.\"",
+	"\"The health inspector wept. I choose to believe they were tears of joy.\"",
+	"\"When the dough rose, so did my spirit.\"",
+	"\"I've been chasing this flavor my entire career. It was hiding in plain sight, under some gummy bears.\"",
+	"\"Controversial? Yes. Delicious? Offensively so.\"",
+	"\"Every pizza I make after this one is just a footnote.\"",
 }
 
 var chefFirstNames = []string{
@@ -233,8 +298,10 @@ var chefLastNames = []string{
 	"Delacroix", "Petrosyan", "Lindqvist", "Mendes", "Tanaka",
 }
 
-var restaurantPatterns = [5]string{
+var restaurantPatterns = [12]string{
 	"Maison du", "The Gilded", "Chez", "& combo", "Le Petit",
+	"Osteria", "Casa di", "The Grand", "Atelier", "Trattoria",
+	"La Table de", "The Secret",
 }
 
 var restaurantNouns = []string{
@@ -250,6 +317,15 @@ var fancyPlaces = []string{
 	"your grandmother's kitchen, but fancier",
 	"a Michelin-starred food truck",
 	"a monastery where monks have perfected the dough for centuries",
+	"a candlelit cave in Cappadocia",
+	"a houseboat on the canals of Amsterdam",
+	"a Buenos Aires steakhouse that secretly serves pizza",
+	"a rooftop garden in Marrakech at golden hour",
+	"a speakeasy behind a laundromat in Brooklyn",
+	"a train dining car crossing the Swiss Alps",
+	"a floating market in Bangkok at dawn",
+	"a crumbling palazzo in Venice where the pizza is always perfect",
+	"a ski lodge in Zermatt where the cheese flows freely",
 }
 
 var randomThings = []string{

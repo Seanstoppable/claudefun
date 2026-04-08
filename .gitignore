@@ -12,3 +12,7 @@ constellation/test.svg
 # OS files
 .DS_Store
 cartographer/imaginary-cartographer
+*/wasm/wasm
+*-wasm
+*-wasm
+elevator/elevator-music

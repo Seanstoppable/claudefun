@@ -194,6 +194,86 @@ func conditionalEvents() []conditionalEvent {
 				Effect:      Effect{Population: 10, Culture: 10},
 			},
 		},
+		{
+			condition: func(k *Kingdom) bool { return k.Military > 80 },
+			event: Event{
+				Name:        "War Declaration",
+				Description: "Neighboring kingdoms feel threatened by your military might!",
+				Effect:      Effect{Reputation: -15, Treasury: -20},
+			},
+		},
+		{
+			condition: func(k *Kingdom) bool { return k.Culture < 25 },
+			event: Event{
+				Name:        "Brain Drain",
+				Description: "Scholars and thinkers flee to more enlightened lands.",
+				Effect:      Effect{Population: -8, Culture: -5, FactionEffects: map[Faction]int{Scholars: -15}},
+			},
+		},
+		{
+			condition: func(k *Kingdom) bool { return k.Military < 20 },
+			event: Event{
+				Name:        "Bandit Invasion",
+				Description: "Bandits raid your poorly defended kingdom!",
+				Effect:      Effect{Treasury: -25, Food: -15},
+			},
+		},
+		{
+			condition: func(k *Kingdom) bool { return k.Happiness > 85 },
+			event: Event{
+				Name:        "Festival Boom",
+				Description: "Word of your joyful realm spreads — tourists flood in!",
+				Effect:      Effect{Treasury: 30, Reputation: 10, FactionEffects: map[Faction]int{Merchants: 10}},
+			},
+		},
+		{
+			condition: func(k *Kingdom) bool { return k.Reputation < 20 },
+			event: Event{
+				Name:        "Trade Embargo",
+				Description: "Foreign merchants refuse to deal with your disreputable kingdom.",
+				Effect:      Effect{Treasury: -20, Food: -10, FactionEffects: map[Faction]int{Merchants: -15}},
+			},
+		},
+		{
+			condition: func(k *Kingdom) bool { return k.Food > 80 },
+			event: Event{
+				Name:        "Feast of Plenty",
+				Description: "Overflowing granaries inspire a grand celebration!",
+				Effect:      Effect{Happiness: 15, Reputation: 10, FactionEffects: map[Faction]int{Farmers: 10}},
+			},
+		},
+		{
+			condition: func(k *Kingdom) bool { return k.Treasury < 20 },
+			event: Event{
+				Name:        "Debt Collectors",
+				Description: "Creditors arrive demanding payment — morale plummets.",
+				Effect:      Effect{Military: -10, Happiness: -10},
+			},
+		},
+		{
+			condition: func(k *Kingdom) bool { return k.Reputation > 85 },
+			event: Event{
+				Name:        "Royal Wedding Proposal",
+				Description: "A prestigious foreign dynasty seeks a marriage alliance!",
+				Effect:      Effect{Reputation: 10, Treasury: 25, FactionEffects: map[Faction]int{Nobles: 15}},
+			},
+		},
+		{
+			condition: func(k *Kingdom) bool { return k.Population > 150 },
+			event: Event{
+				Name:        "Housing Crisis",
+				Description: "Too many people, not enough homes — unrest grows.",
+				Effect:      Effect{Happiness: -15, Food: -10},
+			},
+		},
+		{
+			condition: func(k *Kingdom) bool { return k.Population < 30 },
+			event: Event{
+				Name:        "Ghost Town",
+				Description: "Empty streets and shuttered shops — your kingdom withers.",
+				Effect:      Effect{Reputation: -10, Culture: -10},
+			},
+		},
 	}
 }
 

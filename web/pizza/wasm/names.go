@@ -29,7 +29,7 @@ var (
 		"Tempest", "Revelation", "Requiem", "Crescendo", "Epiphany",
 	}
 
-	italianConnectors = []string{"e", "con", "alla"}
+	italianConnectors = []string{"e", "con", "alla", "di", "del", "della", "sul", "fra"}
 
 	frenchWords = []string{
 		"Mystère", "Triomphe", "Sérénade", "Danse", "Rêve",
@@ -40,15 +40,24 @@ var (
 		"A Study in Contrast", "Deconstructed Dreams",
 		"The One That Got Away", "Controlled Chaos",
 		"Beautiful Disaster", "Organized Madness", "Elegant Confusion",
+		"Calculated Recklessness", "Unexpected Harmony",
+		"The One They'll Talk About", "Flavor Rebellion",
+		"Questionable Genius", "Artisanal Anarchy",
+		"The Chef's Confession", "Unapologetic Indulgence",
+		"Structured Pandemonium",
 	}
 
 	fictionalNames = []string{
 		"Giovanni", "Margherita", "Salvatore", "Francesca",
 		"Dimitri", "Adelaide", "Bartholomew", "Clementine",
+		"Vincenzo", "Seraphina", "Leopold", "Celestine",
+		"Giacomo", "Valentina", "Percival", "Rosalinda",
 	}
 
 	legacyWords = []string{
 		"Emotion", "Legacy", "Secret", "Regret", "Folly", "Triumph", "Downfall",
+		"Confession", "Revenge", "Masterpiece", "Nightmare", "Epiphany",
+		"Gambit", "Surrender", "Obsession", "Paradox",
 	}
 )
 
