@@ -7,7 +7,8 @@ cartographer/imaginary-cartographer
 elevator/elevator-music
 garden/code-garden
 
-# WASM build artifacts in source dirs (not the deployed ones)
+# WASM binaries (built by CI pipeline)
+web/*/*.wasm
 web/*/wasm/wasm
 web/*/wasm/*-wasm
 
