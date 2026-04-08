@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' 'wasm-unsafe-eval'; style-src 'self' 'unsafe-inline'; img-src 'self' data:;">
+    <title>🌱 Code Garden — Grow Your Code</title>
+    <link rel="stylesheet" href="../style.css">
+    <style>
+        :root {
+            --garden-green: #2d6a2f;
+            --garden-light: #4CAF50;
+            --garden-dark: #1a4d1c;
+            --bark: #8B4513;
+            --soil: #3e2723;
+        }
+
+        .nav {
+            padding: 1rem 1.5rem;
+        }
+        .nav a {
+            color: var(--garden-light);
+            text-decoration: none;
+            font-size: 0.9rem;
+        }
+        .nav a:hover { text-decoration: underline; }
+
+        .header {
+            text-align: center;
+            padding: 1.5rem 1.5rem 0.5rem;
+        }
+        .header h1 {
+            font-size: 2.5rem;
+            color: var(--garden-light);
+            margin-bottom: 0.3rem;
+        }
+        .header .subtitle {
+            color: var(--text-secondary);
+            font-size: 1rem;
+            font-style: italic;
+        }
+
+        .app-container {
+            max-width: 1100px;
+            margin: 1.5rem auto;
+            padding: 0 1.5rem;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
+        }
+
+        @media (max-width: 800px) {
+            .app-container { grid-template-columns: 1fr; }
+        }
+
+        .input-panel, .output-panel {
+            background: var(--bg-card);
+            border: 1px solid var(--border-subtle);
+            border-radius: var(--radius);
+            padding: 1.5rem;
+        }
+
+        .input-panel { border-top: 3px solid var(--garden-green); }
+
+        .input-panel h2 {
+            color: var(--garden-light);
+            font-size: 1.1rem;
+            margin-bottom: 1rem;
+        }
+
+        .controls {
+            display: flex;
+            gap: 0.75rem;
+            margin-bottom: 1rem;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .controls select {
+            background: var(--bg-input, #1e1e2e);
+            color: var(--text-primary);
+            border: 1px solid var(--border-subtle);
+            border-radius: 6px;
+            padding: 0.5rem 0.75rem;
+            font-size: 0.9rem;
+            cursor: pointer;
+        }
+
+        .controls button {
+            background: var(--garden-green);
+            color: white;
+            border: none;
+            border-radius: 6px;
+            padding: 0.5rem 1.25rem;
+            font-size: 0.9rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+        .controls button:hover { background: var(--garden-light); }
+        .controls button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .hint {
+            font-size: 0.8rem;
+            color: var(--text-dim);
+        }
+
+        textarea {
+            width: 100%;
+            min-height: 350px;
+            background: #0d1117;
+            color: #c9d1d9;
+            border: 1px solid var(--border-subtle);
+            border-radius: 8px;
+            padding: 1rem;
+            font-family: 'SF Mono', 'Fira Code', 'Cascadia Code', monospace;
+            font-size: 0.85rem;
+            line-height: 1.5;
+            resize: vertical;
+            tab-size: 4;
+        }
+        textarea:focus {
+            outline: none;
+            border-color: var(--garden-green);
+            box-shadow: 0 0 0 2px rgba(45, 106, 47, 0.3);
+        }
+        textarea::placeholder {
+            color: #484f58;
+        }
+
+        .output-panel { border-top: 3px solid var(--bark); }
+
+        .garden-display {
+            background: #0d1117;
+            border: 1px solid var(--border-subtle);
+            border-radius: 8px;
+            padding: 1rem;
+            font-family: 'SF Mono', 'Fira Code', monospace;
+            font-size: 0.9rem;
+            line-height: 1.4;
+            overflow-x: auto;
+            min-height: 200px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .garden-display .empty-state {
+            color: var(--text-dim);
+            text-align: center;
+            font-style: italic;
+        }
+        .garden-display .empty-state .big {
+            font-size: 3rem;
+            display: block;
+            margin-bottom: 0.5rem;
+        }
+
+        .garden-grid {
+            width: 100%;
+        }
+        .garden-row {
+            white-space: nowrap;
+        }
+        .garden-cell {
+            display: inline-block;
+            width: 1.2em;
+            text-align: center;
+            cursor: default;
+        }
+
+        .garden-title {
+            text-align: center;
+            color: var(--garden-light);
+            font-weight: 700;
+            font-size: 1rem;
+            margin-bottom: 0.5rem;
+        }
+        .garden-meta {
+            text-align: center;
+            color: var(--text-dim);
+            font-size: 0.85rem;
+            margin-bottom: 0.75rem;
+        }
+
+        .stats-panel {
+            margin-top: 1.25rem;
+        }
+
+        .health-bar-container {
+            margin-bottom: 1rem;
+        }
+        .health-label {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            margin-bottom: 0.3rem;
+            display: flex;
+            justify-content: space-between;
+        }
+        .health-bar {
+            height: 10px;
+            background: #1e1e2e;
+            border-radius: 5px;
+            overflow: hidden;
+        }
+        .health-fill {
+            height: 100%;
+            border-radius: 5px;
+            transition: width 0.6s ease;
+        }
+
+        .element-counts {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+        }
+        .element-count {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            padding: 0.3rem 0.5rem;
+            background: rgba(255,255,255,0.03);
+            border-radius: 4px;
+        }
+        .element-count .num { font-weight: 700; }
+
+        .code-stats {
+            font-size: 0.8rem;
+            color: var(--text-dim);
+            margin-bottom: 1rem;
+        }
+
+        .report-text {
+            font-style: italic;
+            color: var(--garden-light);
+            font-size: 0.9rem;
+            padding: 0.75rem;
+            background: rgba(45, 106, 47, 0.08);
+            border-left: 3px solid var(--garden-green);
+            border-radius: 0 6px 6px 0;
+        }
+
+        .legend-panel {
+            max-width: 1100px;
+            margin: 0 auto 2rem;
+            padding: 0 1.5rem;
+        }
+        .legend-box {
+            background: var(--bg-card);
+            border: 1px solid var(--border-subtle);
+            border-radius: var(--radius);
+            padding: 1.25rem;
+        }
+        .legend-box h3 {
+            color: var(--garden-light);
+            font-size: 1rem;
+            margin-bottom: 0.75rem;
+        }
+        .legend-columns {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 0.25rem 2rem;
+        }
+        @media (max-width: 600px) {
+            .legend-columns { grid-template-columns: 1fr; }
+        }
+        .legend-item {
+            font-size: 0.82rem;
+            color: var(--text-secondary);
+            padding: 0.15rem 0;
+        }
+        .legend-item .sym {
+            display: inline-block;
+            width: 1.6em;
+            text-align: center;
+            font-size: 1rem;
+        }
+
+        .loading-msg {
+            text-align: center;
+            padding: 2rem;
+            color: var(--text-dim);
+        }
+
+        .footer {
+            text-align: center;
+            padding: 2rem;
+            color: var(--text-dim);
+            font-size: 0.85rem;
+        }
+    </style>
+</head>
+<body>
+    <nav class="nav">
+        <a href="../">← Back to Claudefun</a>
+    </nav>
+
+    <div class="header">
+        <h1>🌱 Code Garden 🌱</h1>
+        <p class="subtitle">Paste your code and watch it bloom into a garden</p>
+    </div>
+
+    <div id="loading" class="loading-msg">🌱 Planting seeds... loading WASM...</div>
+
+    <div id="app" style="display:none;">
+        <div class="app-container">
+            <div class="input-panel">
+                <h2>🌿 Plant Your Code</h2>
+                <div class="controls">
+                    <select id="language">
+                        <option value="go">Go</option>
+                        <option value="python">Python</option>
+                        <option value="javascript">JavaScript</option>
+                        <option value="typescript">TypeScript</option>
+                        <option value="rust">Rust</option>
+                        <option value="java">Java</option>
+                        <option value="c">C</option>
+                        <option value="cpp">C++</option>
+                        <option value="ruby">Ruby</option>
+                    </select>
+                    <button id="grow-btn" type="button">🌱 Grow Garden</button>
+                    <span class="hint">or Ctrl+Enter</span>
+                </div>
+                <textarea id="code-input" placeholder="Paste your code here...&#10;&#10;Try pasting a Go file with functions, tests, and comments&#10;to see a rich garden bloom!&#10;&#10;Example:&#10;  func Hello() { ... }&#10;  func TestHello(t *testing.T) { ... }&#10;  // TODO: add more tests" spellcheck="false"></textarea>
+            </div>
+
+            <div class="output-panel">
+                <div class="garden-display" id="garden-display">
+                    <div class="empty-state" id="empty-state">
+                        <span class="big">🌱</span>
+                        Paste code and click <strong>Grow Garden</strong><br>
+                        to watch it bloom
+                    </div>
+                    <div id="garden-content" style="display:none;"></div>
+                </div>
+
+                <div class="stats-panel" id="stats-panel" style="display:none;">
+                    <div class="health-bar-container">
+                        <div class="health-label">
+                            <span>🌱 Garden Health</span>
+                            <span id="health-score">0/100</span>
+                        </div>
+                        <div class="health-bar">
+                            <div class="health-fill" id="health-fill" style="width:0%"></div>
+                        </div>
+                    </div>
+
+                    <div class="element-counts" id="element-counts"></div>
+                    <div class="code-stats" id="code-stats"></div>
+                    <div class="report-text" id="report-text"></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="legend-panel">
+            <div class="legend-box">
+                <h3>📖 Garden Legend</h3>
+                <div class="legend-columns">
+                    <div>
+                        <div class="legend-item"><span class="sym" style="color:#90EE90">🌱</span> Seedling — tiny functions (1–5 lines)</div>
+                        <div class="legend-item"><span class="sym" style="color:#228B22">ψ</span> Sprout — small functions (6–15 lines)</div>
+                        <div class="legend-item"><span class="sym" style="color:#228B22">♣</span> Bush — medium functions (16–30 lines)</div>
+                        <div class="legend-item"><span class="sym" style="color:#006400">♠</span> Tree — large functions (31–60 lines)</div>
+                        <div class="legend-item"><span class="sym" style="color:#004D00">🌳</span> Oak Tree — huge functions (60+ lines)</div>
+                        <div class="legend-item"><span class="sym" style="color:#FF69B4">✿</span> Flower — type/struct definition</div>
+                        <div class="legend-item"><span class="sym" style="color:#8B4513">┃</span> Fence — tests protecting the garden</div>
+                    </div>
+                    <div>
+                        <div class="legend-item"><span class="sym" style="color:#FF0000">🐛</span> Bug — TODO/FIXME/HACK markers</div>
+                        <div class="legend-item"><span class="sym" style="color:#87CEEB">🦋</span> Butterfly — comments in the breeze</div>
+                        <div class="legend-item"><span class="sym" style="color:#DAA520">⌇</span> Weed — untested/uncommented code</div>
+                        <div class="legend-item"><span class="sym" style="color:#808080">●</span> Rock — complexity hotspot</div>
+                        <div class="legend-item"><span class="sym" style="color:#4169E1">≈</span> Pond — breathing room</div>
+                        <div class="legend-item"><span class="sym" style="color:#FFD700">◈</span> Beehive — heavily imported module</div>
+                        <div class="legend-item"><span class="sym" style="color:#FF0000">⚑</span> Gnome — appears in healthy gardens!</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="footer">
+        <p>🌱 Code Garden · Part of <a href="../" style="color:var(--garden-light)">Claudefun</a></p>
+        <p>All computation runs in your browser via WebAssembly. No servers harmed.</p>
+    </div>
+
+    <script src="../shared/wasm_exec.js"></script>
+    <script src="../shared/common.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>

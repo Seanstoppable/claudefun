@@ -43,6 +43,12 @@ cd "$SCRIPT_DIR/elevator/wasm"
 GOOS=js GOARCH=wasm go build -o ../elevator.wasm .
 echo "     → elevator.wasm"
 
+# Garden
+echo "  🌱 Garden..."
+cd "$SCRIPT_DIR/garden/wasm"
+GOOS=js GOARCH=wasm go build -o ../garden.wasm .
+echo "     → garden.wasm"
+
 echo ""
 echo "✅ All WASM binaries built!"
 ls -lh "$SCRIPT_DIR"/constellation/constellation.wasm \
@@ -50,4 +56,5 @@ ls -lh "$SCRIPT_DIR"/constellation/constellation.wasm \
        "$SCRIPT_DIR"/octopus/octopus.wasm \
        "$SCRIPT_DIR"/kingdom/kingdom.wasm \
        "$SCRIPT_DIR"/cartographer/cartographer.wasm \
-       "$SCRIPT_DIR"/elevator/elevator.wasm 2>/dev/null
+       "$SCRIPT_DIR"/elevator/elevator.wasm \
+       "$SCRIPT_DIR"/garden/garden.wasm 2>/dev/null
